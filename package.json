@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/alexx-potter458/sync/issues"
   },
-  "homepage": "https://github.com/alexx-potter458/sync#readme"
+  "homepage": "https://github.com/alexx-potter458/sync#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
