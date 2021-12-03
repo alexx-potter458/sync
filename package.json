@@ -1,0 +1,19 @@
+{
+  "name": "sync",
+  "version": "1.0.0",
+  "description": "An app like LinkedIn, but better.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexx-potter458/sync.git"
+  },
+  "author": "Alexandru Olaru, Andrei Trache, Cosmin-Lucian Bejan-Topse",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexx-potter458/sync/issues"
+  },
+  "homepage": "https://github.com/alexx-potter458/sync#readme"
+}
