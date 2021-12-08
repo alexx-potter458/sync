@@ -17,6 +17,12 @@
   },
   "homepage": "https://github.com/alexx-potter458/sync#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-graphql": "^0.12.0",
+    "faker": "^5.5.3",
+    "graphql": "^15.7.2",
+    "jsonwebtoken": "^8.5.1",
+    "sequelize": "^6.12.0-beta.1",
+    "sqlite3": "^5.0.2"
   }
 }
