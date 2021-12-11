@@ -1,5 +1,4 @@
 "use strict";
-const { database } = require('faker');
 const faker = require('faker')
 
 module.exports = {
@@ -21,7 +20,7 @@ module.exports = {
         email: faker.internet.email('fuk', 'you'),
         firsName: faker.name.firstName(),
         lastName: faker.name.lastName(),
-        age: 1,
+        age: parseInt(Math.random() * 100),
         jobId: 1,
         statusId: 1,
         createdAt: new Date(),
@@ -40,5 +39,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete("People", null, {});
      */
+    await queryInterface.bulkDelete('Users', null, {})
   }
 };
