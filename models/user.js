@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       models.User.hasMany(models.Post, {
         foreignKey: 'userId'
       })
-      models.User.hasMany(models.Userinterest, {
+      models.User.hasMany(models.UserInterest, {
         foreignKey: 'userId'
       })
-      models.User.hasMany(models.Friendrequest, {
+      models.User.hasMany(models.FriendRequest, {
         foreignKey: 'fromUserId'
       })
       models.User.hasOne(models.Job)
