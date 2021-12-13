@@ -3,6 +3,7 @@ const db = require('../models');
 const userType = require('./types/userType')
 const postType = require('./types/postType')
 const interestType = require('./types/interestType')
+const userInterestType = require('./types/userInterestType')
 //in db am users interests si companies
 
 // userName: DataTypes.STRING,
@@ -85,6 +86,12 @@ const queryType = new GraphQLObjectType({
                 return await db.Post.findAll();
             }
         },
+        userInterests:{
+            type:new GraphQLList(userInterestType),
+            resolve: async () =>{
+                return await db.UserInterest.findAll();
+            }
+        }
     }
 });
 

@@ -14,8 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       models.User.hasMany(models.Post, {
         foreignKey: 'userId'
       })
+      models.User.belongsToMany(models.Interest, {
+        through: models.UserInterest
+      })
       models.User.hasMany(models.UserInterest, {
-        foreignKey: 'userId'
+        foreignKey:'userId'
       })
       models.User.hasMany(models.FriendRequest, {
         foreignKey: 'fromUserId'
