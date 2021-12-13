@@ -48,7 +48,7 @@ const queryType = new GraphQLObjectType({
                     type:new GraphQLNonNull(GraphQLID),
                 }
             },
-            resolve: async (source, {id}) => {
+            resolve: async (source, {id}, context) => {
                 return await  db.User.findByPk(id);
             }
         },
