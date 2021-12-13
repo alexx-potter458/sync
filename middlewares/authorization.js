@@ -4,7 +4,7 @@ const db = require('../models')
 
 const authorizationMiddleware = async (req, res, next) => {
     const authorization = req.headers.authorization;
-    // console.log(authorization);
+
     if (authorization) {
         try {
             const decoded = jwt.verify(authorization.replace('Bearer ', ''), MY_SECRET_KEY);
