@@ -10,8 +10,6 @@ module.exports = {
       dateFake.push({
         userId,
         postText:faker.lorem.paragraphs(),
-        createdAt:new Date(),
-        updatedAt:new Date()
       })
     }
     await queryInterface.bulkInsert('Posts', dateFake , {});

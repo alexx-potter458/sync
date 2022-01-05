@@ -1,26 +1,24 @@
 const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLNonNull} = require("graphql");
 const userType = require('./userType');
-const interestType = require('./interestType');
 const {use} = require("express/lib/router");
 
-const userInterestType = new GraphQLObjectType({
-    name: 'UserInterest',
+const userFriendType = new GraphQLObjectType({
+    name: 'UserFriend',
     fields: {
-        userId: {type:new GraphQLNonNull(GraphQLID)},
-        interestId: {type:new GraphQLNonNull(GraphQLID)},
+        firstUserId: {type:new GraphQLNonNull(GraphQLID)},
+        secondUserId: {type:new GraphQLNonNull(GraphQLID)},
         user:{
             type:userType,
             resolve: async (source) =>{ 
                 return await source.getUser();
             }
         },
-        interest:{
-            type:interestType,
+        friend:{
+            type:userType,
             resolve: async (source) =>{
                 return await source.getInterest();
             }
         }
     }
 })
-
-module.exports = userInterestType;
+module.exports = userFriendType;

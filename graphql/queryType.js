@@ -4,6 +4,7 @@ const userType = require('./types/userType')
 const postType = require('./types/postType')
 const interestType = require('./types/interestType')
 const userInterestType = require('./types/userInterestType')
+const userFriendType = require('./types/userFriendType')
 //in db am users interests si companies
 
 // userName: DataTypes.STRING,
@@ -17,27 +18,9 @@ const userInterestType = require('./types/userInterestType')
 const queryType = new GraphQLObjectType({
     name: 'Query',
     fields: {
-        // hello:{
-        //     type:GraphQLString,
-        //     args:{
-        //         name:{
-        //             type:GraphQLString,
-        //         }
-        //     },
-        //      //the actual function care va fi executata in momentul in care cineva face query ul respectiv - virgil 2021
-        //     resolve: (_, {name}) =>{
-        //         console.log("args:",args)
-        //         if(name){
-        //             return `Hello, ${name}`
-        //         }else {
-        //             return "Hello world";
-        //         }
-        //     }
-        // }
         users: {
             type: new GraphQLList(userType),
             resolve: async () => {
-                //the actual query to the baza de date
                 return await db.User.findAll();
             }
         },
@@ -86,10 +69,40 @@ const queryType = new GraphQLObjectType({
                 return await db.Post.findAll();
             }
         },
-        userInterests:{
+        allUserInterests:{
             type:new GraphQLList(userInterestType),
             resolve: async () =>{
                 return await db.UserInterest.findAll();
+            }
+        },
+        userInterests:{
+            type:new GraphQLList(userInterestType),
+            args:{
+                userId:{
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, {userId}) =>{
+                return await db.UserInterest.findAll({
+                    where: {
+                        userId
+                    }
+                  });
+            }
+        },
+        userFriend:{
+            type:new GraphQLList(userFriendType),
+            args:{
+                userId:{
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, {userId}) =>{
+                return await db.Friend.findAll({
+                    where: {
+                        firstUserId: userId
+                    }
+                  });
             }
         }
     }

@@ -5,10 +5,8 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Company extends Model {
     static associate(models) {
-
-      models.Company.hasMany(models.Job, {
-        foreignKey: 'companyId'
-      })
+      models.Company.hasMany(models.Job)
+      
     }
   };
   Company.init({
@@ -16,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Company',
+    timestamps: false,
   });
   return Company;
 };

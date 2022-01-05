@@ -12,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
           }
       )
       models.UserInterest.belongsTo(
-          models.Interest,{
-            foreignKey:"interestId"
-          }
+        models.Interest, {
+          foreignKey:"interestId"
+        }
       )
 
     }
@@ -22,11 +22,10 @@ module.exports = (sequelize, DataTypes) => {
   UserInterest.init({
     userId: DataTypes.INTEGER,
     interestId: DataTypes.INTEGER,
-    createdAt:DataTypes.DATE,
-    updatedAt:DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'UserInterest',
+    timestamps: false,
   });
   return UserInterest;
 };

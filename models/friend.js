@@ -5,7 +5,17 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Friend extends Model {
     static associate(models) {
-
+      models.Friend.belongsTo(
+        models.User, {
+          foreignKey: 'firstUserId'
+        }
+      )
+      
+        models.Friend.belongsTo(
+          models.User, {
+            foreignKey: 'secondUserId'
+          }
+        )
     }
   };
   Friend.init({
@@ -14,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Friend',
+    timestamps: false,
   });
   return Friend;
 };

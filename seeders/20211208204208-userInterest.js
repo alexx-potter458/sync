@@ -5,16 +5,22 @@ const faker = require("faker");
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const dateFake = []
-    const allUsers = await db.User.findAll();
-    const allInterests = await db.Interest.findAll();
-    for(let i=0;i<200;i++){
-      const userId = Math.floor(Math.random() * (allUsers.length - 1) + 103);
-      const interestId = Math.floor(Math.random() * (allInterests.length - 1));
+
+    let arr = [];
+
+    while(arr.length < 60){
+        let r = Math.floor(Math.random() * 99) + 1;
+        if(arr.indexOf(r) === -1) arr.push(r);
+    }
+
+    for(let i = 0; i < arr.length - 3; i += 2){
+
+      const userId = arr[i];
+      const interestId = arr[i+1];
+
       dateFake.push({
         userId,
         interestId,
-        createdAt: new Date(),
-        updatedAt:new Date()
       })
     }
     await queryInterface.bulkInsert('UserInterests', dateFake , {});

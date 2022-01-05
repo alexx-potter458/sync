@@ -6,13 +6,11 @@ module.exports = (sequelize, DataTypes) => {
   class Interest extends Model {
  
     static associate(models) {
-
+      
       models.Interest.belongsToMany(models.User, {
         through: models.UserInterest
       })
-      models.Interest.hasMany(models.UserInterest,{
-        foreignKey:'interestId'
-      })
+
     }
   };
   Interest.init({
@@ -22,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Interest',
+    timestamps: false,
   });
   return Interest;
 };

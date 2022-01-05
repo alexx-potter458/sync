@@ -6,9 +6,20 @@ module.exports = (sequelize, DataTypes) => {
   class FriendRequest extends Model {
  
     static associate(models) {
-
+      models.FriendRequest.belongsTo(
+        models.User, {
+          foreignKey: 'fromUserId'
+        }
+      )
+      
+      models.FriendRequest.belongsTo(
+        models.User, {
+          foreignKey: 'toUserId'
+        }
+      )
+      
     }
-  };
+};
   FriendRequest.init({
     fromUserId: DataTypes.INTEGER,
     toUserId: DataTypes.INTEGER,
@@ -16,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FriendRequest',
+    timestamps: false,
   });
   return FriendRequest;
 };

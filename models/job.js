@@ -6,10 +6,11 @@ module.exports = (sequelize, DataTypes) => {
   class Job extends Model {
 
     static associate(models) {
-
-      models.Job.belongsTo(models.User, {
-        foreignKey: 'jobId'
+      models.Job.belongsTo(models.Company, {
+        foreignKey: 'companyId'
       })
+
+      models.Job.belongsTo(models.User)
     }
   };
   Job.init({
@@ -19,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Job',
+    timestamps: false,
   });
   return Job;
 };

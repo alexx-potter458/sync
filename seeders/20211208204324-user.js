@@ -6,15 +6,13 @@ module.exports = {
     const dateFake = []
     for(let i = 0; i < 100; i ++){
       dateFake.push({
-        userName: faker.internet.userName('fuk', 'me'),
-        email: faker.internet.email('fuk', 'you'),
+        userName: faker.internet.userName(),
+        email: faker.internet.email(),
         firsName: faker.name.firstName(),
         lastName: faker.name.lastName(),
-        age: parseInt(Math.random() * 100),
-        jobId: 1,
-        statusId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        age: parseInt(Math.random() * 80) + 20,
+        jobId: parseInt(Math.random() * 100),
+        statusId: parseInt(Math.random() * 3) + 1,
       })
     }
 

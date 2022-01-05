@@ -7,19 +7,17 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
-      models.User.hasMany(models.Post, {
-        foreignKey: 'userId'
-      })
       models.User.belongsToMany(models.Interest, {
         through: models.UserInterest
       })
-      models.User.hasMany(models.UserInterest, {
-        foreignKey:'userId'
+
+      models.User.hasOne(models.Job, {
+        foreignKey: 'jobId',
       })
-      models.User.hasMany(models.FriendRequest, {
-        foreignKey: 'fromUserId'
-      })
-      models.User.hasOne(models.Job)
+
+      models.User.hasMany(models.Post)
+      models.User.hasMany(models.FriendRequest)
+      models.User.hasMany(models.Friend)
     }
   };
   User.init({
@@ -34,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    timestamps: false,
   });
   return User;
 };

@@ -7,8 +7,6 @@ const postType = new GraphQLObjectType({
     fields: {
         id:{type:GraphQLID},  // ar fi source.id
         postText: {type: GraphQLString}, //ar fi source.postText
-        createdAt: {type: GraphQLString},
-        updatedAt: {type: GraphQLString},
         author:{
             // type:new GraphQLNonNull(userType),
             type:userType,
