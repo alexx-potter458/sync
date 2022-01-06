@@ -1,12 +1,12 @@
 const db = require('../models');
 
 module.exports.createUser = async (args) => {
-    const {email, password, firsName, lastName, userName, age, jobId, statusId} = args;
+    const {email, password, firstName, lastName, userName, age, jobId, statusId} = args;
     try {
         const newUser = await db.User.create({
             email,
             password,
-            firsName,
+            firstName,
             lastName,
             userName,
             age,
@@ -26,12 +26,12 @@ module.exports.updateUser = async (args, context) => {
         return null;
     }
     const userId = user.id;
-    const {email, firsName, lastName, userName, age, jobId, statusId} = args;
+    const {email, firstName, lastName, userName, age, jobId, statusId} = args;
     console.log("no try")
     try {
         await db.User.update({
             email,
-            firsName,
+            firstName,
             lastName,
             userName,
             age,

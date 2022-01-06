@@ -8,7 +8,7 @@ module.exports = {
       dateFake.push({
         userName: faker.internet.userName(),
         email: faker.internet.email(),
-        firsName: faker.name.firstName(),
+        firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         age: parseInt(Math.random() * 80) + 20,
         jobId: parseInt(Math.random() * 100),

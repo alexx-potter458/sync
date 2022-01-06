@@ -1,13 +1,11 @@
 const {GraphQLObjectType, GraphQLString, GraphQLID} = require("graphql");
 
-
-
-const userAsFriendType = new GraphQLObjectType({
-    name: 'UserAsFriend',
+const userSecondaryType = new GraphQLObjectType({
+    name: 'UserSecondary',
     fields: {
         id:{type:GraphQLID},
         email: {type: GraphQLString},
-        firsName: {type: GraphQLString},
+        firstName: {type: GraphQLString},
         lastName: {type: GraphQLString},
         age: {type: GraphQLString},
         jobId: {type: GraphQLString},
@@ -15,4 +13,4 @@ const userAsFriendType = new GraphQLObjectType({
     }
 })
 
-module.exports = userAsFriendType;
+module.exports = userSecondaryType;

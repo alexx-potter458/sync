@@ -10,7 +10,7 @@ const createUserInputType = new GraphQLInputObjectType({
         password: {
             type: new GraphQLNonNull(GraphQLString)
         },
-        firsName:{
+        firstName:{
             type:GraphQLString
         },
         lastName:{

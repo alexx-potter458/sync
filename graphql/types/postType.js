@@ -1,20 +1,19 @@
 const {GraphQLObjectType, GraphQLString, GraphQLID} = require("graphql");
-// const userType = require('./userType');
+const userSecondary = require('./userSecondaryType');
+const db = require('../../models');
 
 
 const postType = new GraphQLObjectType({
     name: 'Post',
     fields: {
-        id:{type:GraphQLID},  // ar fi source.id
-        postText: {type: GraphQLString}, //ar fi source.postText
-        // author:{
-        //     // type:new GraphQLNonNull(userType),
-        //     type:userType,
-        //     resolve: async (source) =>{  //ar fi post.author, dar noi folosim un
-        //         //resolver custom
-        //         return await source.getUser();
-        //     }
-        // }
+        id:{type:GraphQLID},
+        postText: {type: GraphQLString},
+        author: {
+            type: userSecondary,
+            resolve: async (source) => { 
+                return (await db.User.findByPk(source.userId));
+            }
+        }
     }
 })
 

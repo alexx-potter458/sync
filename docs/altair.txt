@@ -1,0 +1,172 @@
+http://localhost:2022/graphql
+
+mutation Login{
+  login(loginInput: {
+    email:"Antonette11@hotmail.com",
+    password:"password"
+  }){
+    token
+  }
+}
+
+query AllUsers{
+  users{
+    id
+    email
+    firstName
+    lastName
+    age
+    jobId
+    statusId
+    
+  }
+}
+
+query AllUsersInterestsPosts{
+  users{
+    id
+    email
+    firstName
+    lastName
+    age
+    jobId
+    statusId
+    posts{
+      postText
+    }
+     interests{
+      name
+      description
+      status
+    }
+    
+  }
+}
+
+query UserByIdAndInterests{
+  user(id: 12){
+    id
+    email
+    firstName
+    lastName
+    age
+    jobId
+    statusId
+    interests{
+      name
+      description
+      status
+    }
+  }
+}
+
+query UserByIdAndPosts{
+  user(id: 12){
+    id
+    email
+    firstName
+    lastName
+    age
+    jobId
+    statusId
+    posts{
+      postText
+    }
+  }
+}
+
+query UserByIdAndFriends{
+  user(id: 12){
+    id
+    email
+    firstName
+    lastName
+    age
+    jobId
+    statusId
+    friends{
+      friend{
+        id
+        email
+        firstName
+        lastName
+        age
+        jobId
+        statusId
+      }
+    }
+  }
+}
+
+query AllInterests{
+  interests{
+    id
+    name
+    description
+    status
+  }
+}
+query InterestById{
+  interest(id: 9){
+    id
+    name
+    description
+    status
+  }
+}
+
+query AllPosts{
+  posts{
+    id
+    postText
+  }
+}
+
+query PostById{
+  post(id: 10){
+    id
+    postText
+  }
+}
+
+
+
+
+
+query PostAuthor{
+  posts{
+    postText
+    author{
+      email
+      firstName
+      lastName
+    }
+    
+  }
+}
+
+
+mutation creeareuser{
+  createUser(createUserInput: {
+    email:"cosminl2ucain448@yahoo.com",
+    password:"password"
+    firstName:"Cos2min"
+    lastName:"Luc2ian"
+    userName:"cosminlcuain58"
+    age:40
+    jobId:10
+    statusId:2
+  }){
+    id
+    email
+  }
+}
+mutation updateunuser{
+  updateUser(updateUserInput: {
+    email:"George11@hotmail.com"
+    firstName:"George"
+  }){
+    email
+    firstName
+  }
+}

@@ -1,6 +1,6 @@
 const {GraphQLObjectType, GraphQLString, GraphQLID} = require("graphql");
 const db = require('../../models');
-const UserAsFriend = require('./userAsFriendType');
+const userSecondary = require('./userSecondaryType');
 
 
 const friendType = new GraphQLObjectType({
@@ -9,11 +9,11 @@ const friendType = new GraphQLObjectType({
         id:{type:GraphQLID},
         userId:{type:GraphQLString},
         friendId:{type:GraphQLString},
-        user: {
-            type: UserAsFriend,
+        friend: {
+            type: userSecondary,
             resolve: async (source) => { 
-                // console.log(source)
-                return await  db.User.findByPk(source.friendId);
+                console.log(source)
+                return (await db.User.findByPk(source.friendId));
             }
         }
         

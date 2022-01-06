@@ -7,7 +7,7 @@ const updateUserInputType = new GraphQLInputObjectType({
         email: {
             type: new GraphQLNonNull(GraphQLString)
         },
-        firsName: {
+        firstName: {
             type: GraphQLString
         },
         lastName: {
