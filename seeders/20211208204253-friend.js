@@ -13,11 +13,11 @@ module.exports = {
     for(let i = 0; i < arr.length - 3; i += 2) {
 
       data.push ({
-        firstUserId: arr[i],
-        secondUserId: arr[i+1]
+        userId: arr[i],
+        friendId: arr[i+1]
       },{
-        firstUserId: arr[i+1],
-        secondUserId: arr[i]
+        userId: arr[i+1],
+        friendId: arr[i]
       })
 
     }

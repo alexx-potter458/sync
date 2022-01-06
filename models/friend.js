@@ -7,20 +7,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.Friend.belongsTo(
         models.User, {
-          foreignKey: 'firstUserId'
+          foreignKey: 'userId'
         }
       )
       
         models.Friend.belongsTo(
           models.User, {
-            foreignKey: 'secondUserId'
+            foreignKey: 'friendId'
           }
         )
     }
   };
   Friend.init({
-    firstUserId: DataTypes.INTEGER,
-    secondUserId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    friendId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Friend',

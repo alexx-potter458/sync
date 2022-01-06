@@ -8,10 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstUserId: {
+      userId: {
         type: Sequelize.INTEGER
       },
-      secondUserId: {
+      friendId: {
         type: Sequelize.INTEGER
       },
     });

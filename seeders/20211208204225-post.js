@@ -6,7 +6,7 @@ module.exports = {
     const dateFake = []
     const allUsers = await db.User.findAll();
     for(let i=0;i<200;i++){
-      const userId = Math.floor(Math.random() * (allUsers.length - 1));
+      const userId = Math.floor(Math.random() * 99) + 1;
       dateFake.push({
         userId,
         postText:faker.lorem.paragraphs(),
