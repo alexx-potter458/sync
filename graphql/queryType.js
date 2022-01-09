@@ -5,7 +5,6 @@ const postType = require('./types/postType')
 const interestType = require('./types/interestType');
 const jobType = require('./types/jobType');
 const companyType = require('./types/companyType');
-const { where } = require('sequelize/dist');
 
 const queryType = new GraphQLObjectType({
     name: 'Query',
@@ -93,13 +92,9 @@ const queryType = new GraphQLObjectType({
             },
             resolve: async(source, {status}) => {
                 console.log(status)
-                // return await db.Status.findAll({
-                //     where: {name: status},
-                //     include: [{
-                //         model: db.User,
-                //         required: true
-                //     }]
-                // })
+                return await db.User.findAll({
+                    where: {status: status}
+                })
             }
         }
     }

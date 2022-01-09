@@ -3,8 +3,7 @@ const interestType = require("./interestType");
 const postType = require("./postType");
 const friendType = require("./friendType");
 const jobType = require('./jobType')
-const companyType = require('./companyType')
-const statusType = require('./statusType')
+const companyType = require('./companyType');
 
 
 const userType = new GraphQLObjectType({
@@ -48,12 +47,12 @@ const userType = new GraphQLObjectType({
                 return await source.getCompanies()
             }
         },
-        usersByStatus: {
-            type: new GraphQLList(statusType),
-            resolve: async(source) => {
-                return await source.getStatuses()
-            }
-        }
+        // usersByStatus: {
+        //     type: new GraphQLList(statusType),
+        //     resolve: async(source) => {
+        //         return await source.getUser()
+        //     }
+        // }
     }
 })
 
