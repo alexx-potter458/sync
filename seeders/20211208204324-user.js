@@ -3,16 +3,8 @@ const faker = require('faker')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const dateFake = []
-    let statusuri = [{
-      name: 'Open for work',
-    },
-    {
-      name: 'Working',
-    },
-    {
-      name: 'Recruting',
-    }]
+    const dateFake = []  
+    let statusuri = ['Open for work', 'Working', 'Recruting']
 
     for(let i = 0; i < 100; i ++){
       dateFake.push({
