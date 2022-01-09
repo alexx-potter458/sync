@@ -51,5 +51,32 @@ module.exports.updateUser = async (args, context) => {
         return null;
     }
 }
+
+module.exports.deleteUser = async (args, context) => {
+    const {user} = context
+    if(!user){
+        console.log('N-avem pentru tine strainule!')
+        return null
+    }
+
+    let idUser = args.id
+    try{
+        const response = await db.User.destroy({
+            where: {id: idUser}
+        })
+        if(response){
+            return {ok: response}
+        }else {
+            console.log('acest user nu exista')
+            return null
+        }
+
+    } catch (error){
+        console.log('ceva n-a mers bine vere')
+        console.error(error)
+        return null
+    }
+
+}
 // module.exports. =
 // module.exports. =

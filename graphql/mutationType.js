@@ -1,4 +1,4 @@
-const {GraphQLObjectType, GraphQLString, GraphQLNonNull} = require('graphql');
+const {GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLID} = require('graphql');
 const userType = require('./types/userType')
 const loginResultType = require('./types/loginResultType')
 const loginInputType = require('./inputTypes/loginInputType')
@@ -7,7 +7,11 @@ const updateUserInputType = require('./inputTypes/updateUserInputType')
 const loginHandler = require('../repository/login')
 const db = require('../models')
 
-const { createUser, updateUser } = require('../repository/users');
+const { createUser, updateUser, deleteUser } = require('../repository/users');
+const { deletePost } = require('../repository/posts')
+const { deleteInterest } = require('../repository/interests')
+const postType = require('./types/postType');
+const interestType = require('./types/interestType');
 
 const mutationType = new GraphQLObjectType({
     name: 'Mutation',
@@ -48,7 +52,49 @@ const mutationType = new GraphQLObjectType({
             resolve: async (source, args, context) => {
                 return updateUser(args.updateUserInput, context);
             }
+        },
+        deleteUser: {
+            type: userType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, args, context) => {
+                return deleteUser(args, context);
+            }
+        },
+        deletePost: {
+            type: postType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, args, context) => {
+                return deletePost(args, context);
+            }
+        },
+        deleteInterest: {
+            type: interestType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, args, context) => {
+                return deleteInterest(args, context);
+            }
+
         }
+        // updateStatus: {
+        //     type: userType,
+        //     args: {
+        //         updateUserStatus: {
+        //             type: updateUserStatusInputType
+        //         }
+        //     }
+        // }
     }
 });
 

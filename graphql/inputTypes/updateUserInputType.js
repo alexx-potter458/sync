@@ -8,7 +8,7 @@ const updateUserInputType = new GraphQLInputObjectType({
             type: new GraphQLNonNull(GraphQLString)
         },
         firstName: {
-            type: GraphQLString
+            type: new GraphQLNonNull(GraphQLString)
         },
         lastName: {
             type: GraphQLString
@@ -23,7 +23,7 @@ const updateUserInputType = new GraphQLInputObjectType({
             type: GraphQLInt
         },
         status: {
-            type: GraphQLString
+            type: new GraphQLNonNull(GraphQLString)
         }
     }
 })
