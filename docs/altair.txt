@@ -17,7 +17,7 @@ query AllUsers{
     lastName
     age
     jobId
-    statusId
+    status
     
   }
 }
@@ -30,7 +30,7 @@ query AllUsersInterestsPosts{
     lastName
     age
     jobId
-    statusId
+    status
     posts{
       postText
     }
@@ -51,7 +51,7 @@ query UserByIdAndInterests{
     lastName
     age
     jobId
-    statusId
+    status
     interests{
       name
       description
@@ -68,7 +68,7 @@ query UserByIdAndPosts{
     lastName
     age
     jobId
-    statusId
+    status
     posts{
       postText
     }
@@ -83,7 +83,7 @@ query UserByIdAndFriends{
     lastName
     age
     jobId
-    statusId
+    status
     friends{
       friend{
         id
@@ -92,7 +92,7 @@ query UserByIdAndFriends{
         lastName
         age
         jobId
-        statusId
+        status
       }
     }
   }
@@ -155,7 +155,7 @@ mutation creeareuser{
     userName:"cosminlcuain58"
     age:40
     jobId:10
-    statusId:2
+    status:2
   }){
     id
     email

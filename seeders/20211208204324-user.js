@@ -4,6 +4,16 @@ const faker = require('faker')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const dateFake = []
+    let statusuri = [{
+      name: 'Open for work',
+    },
+    {
+      name: 'Working',
+    },
+    {
+      name: 'Recruting',
+    }]
+
     for(let i = 0; i < 100; i ++){
       dateFake.push({
         userName: faker.internet.userName(),
@@ -12,7 +22,7 @@ module.exports = {
         lastName: faker.name.lastName(),
         age: parseInt(Math.random() * 80) + 20,
         jobId: parseInt(Math.random() * 100),
-        statusId: parseInt(Math.random() * 3) + 1,
+        status: statusuri[parseInt(Math.random() * 3) + 1],
       })
     }
 

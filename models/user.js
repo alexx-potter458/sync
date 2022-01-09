@@ -11,10 +11,9 @@ module.exports = (sequelize, DataTypes) => {
         through: models.UserInterest
       })
 
-      models.User.hasOne(models.Job, {
-        foreignKey: 'jobId',
+      models.User.belongsToMany(models.Job, {
+        through: models.UserJob
       })
-
       models.User.hasMany(models.Post)
       models.User.hasMany(models.FriendRequest)
       models.User.hasMany(models.Friend)
@@ -27,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     lastName: DataTypes.STRING,
     age: DataTypes.INTEGER,
     jobId: DataTypes.INTEGER,
-    statusId: DataTypes.INTEGER,
+    status: DataTypes.STRING,
     password: DataTypes.STRING
   }, {
     sequelize,

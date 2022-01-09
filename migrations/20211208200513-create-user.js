@@ -26,8 +26,8 @@ module.exports = {
       jobId: {
         type: Sequelize.INTEGER
       },
-      statusId: {
-        type: Sequelize.INTEGER
+      status: {
+        type: Sequelize.STRING
       },
     });
   },

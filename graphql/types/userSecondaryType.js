@@ -9,7 +9,7 @@ const userSecondaryType = new GraphQLObjectType({
         lastName: {type: GraphQLString},
         age: {type: GraphQLString},
         jobId: {type: GraphQLString},
-        statusId: {type: GraphQLString}
+        status: {type: GraphQLString}
     }
 })
 

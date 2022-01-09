@@ -2,6 +2,9 @@ const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList} = require("grap
 const interestType = require("./interestType");
 const postType = require("./postType");
 const friendType = require("./friendType");
+const jobType = require('./jobType')
+const companyType = require('./companyType')
+const statusType = require('./statusType')
 
 
 const userType = new GraphQLObjectType({
@@ -13,7 +16,7 @@ const userType = new GraphQLObjectType({
         lastName: {type: GraphQLString},
         age: {type: GraphQLString},
         jobId: {type: GraphQLString},
-        statusId: {type: GraphQLString},
+        status: {type: GraphQLString},
         posts:{
             type: new GraphQLList(postType),
             resolve: async (source) => { 
@@ -30,6 +33,25 @@ const userType = new GraphQLObjectType({
             type: new GraphQLList(friendType),
             resolve: async (source) => {
                 return await source.getFriends();
+            }
+        },
+        jobs: {
+            type: new GraphQLList(jobType),
+            resolve: async (source) => {
+                // console.log(source)
+                return await source.getJobs()
+            }
+        },
+        companies: {
+            type: new GraphQLList(companyType),
+            resolve: async (source) => {
+                return await source.getCompanies()
+            }
+        },
+        usersByStatus: {
+            type: new GraphQLList(statusType),
+            resolve: async(source) => {
+                return await source.getStatuses()
             }
         }
     }

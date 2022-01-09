@@ -2,7 +2,10 @@ const {GraphQLObjectType, GraphQLString, GraphQLList, GraphQLID, GraphQLNonNull}
 const db = require('../models');
 const userType = require('./types/userType')
 const postType = require('./types/postType')
-const interestType = require('./types/interestType')
+const interestType = require('./types/interestType');
+const jobType = require('./types/jobType');
+const companyType = require('./types/companyType');
+const { where } = require('sequelize/dist');
 
 const queryType = new GraphQLObjectType({
     name: 'Query',
@@ -57,7 +60,48 @@ const queryType = new GraphQLObjectType({
             resolve: async(source, {id}) =>{
                 return await db.Post.findByPk(id);
             }
-        },  
+        },
+        jobs:{
+            type: new GraphQLList(jobType),
+            resolve: async() => {
+                return await db.Job.findAll()
+            }
+        },
+        job: {
+            type: jobType,
+            args:{
+                id:{
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, {id}) => {
+                return await db.Job.findByPk(id);
+            }
+        },
+        companies: {
+            type: new GraphQLList(companyType),
+            resolve: async(source) => {
+                return await db.Company.findAll()
+            }
+        },
+        usersByStatus: {
+            type: new GraphQLList(userType),
+            args:{
+                status:{
+                    type: new GraphQLNonNull(GraphQLString)
+                }
+            },
+            resolve: async(source, {status}) => {
+                console.log(status)
+                // return await db.Status.findAll({
+                //     where: {name: status},
+                //     include: [{
+                //         model: db.User,
+                //         required: true
+                //     }]
+                // })
+            }
+        }
     }
 });
 

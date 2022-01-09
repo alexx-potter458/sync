@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'companyId'
       })
 
-      models.Job.belongsTo(models.User)
+      models.Job.belongsToMany(models.User, {
+        through: models.UserJob
+      })
     }
   };
   Job.init({

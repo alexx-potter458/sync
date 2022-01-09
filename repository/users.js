@@ -1,7 +1,7 @@
 const db = require('../models');
 
 module.exports.createUser = async (args) => {
-    const {email, password, firstName, lastName, userName, age, jobId, statusId} = args;
+    const {email, password, firstName, lastName, userName, age, jobId, status} = args;
     try {
         const newUser = await db.User.create({
             email,
@@ -11,7 +11,7 @@ module.exports.createUser = async (args) => {
             userName,
             age,
             jobId,
-            statusId
+            status
         });
         return newUser;
     } catch (error) {
@@ -26,7 +26,7 @@ module.exports.updateUser = async (args, context) => {
         return null;
     }
     const userId = user.id;
-    const {email, firstName, lastName, userName, age, jobId, statusId} = args;
+    const {email, firstName, lastName, userName, age, jobId, status} = args;
     console.log("no try")
     try {
         await db.User.update({
@@ -36,7 +36,7 @@ module.exports.updateUser = async (args, context) => {
             userName,
             age,
             jobId,
-            statusId
+            status
         }, {
             where: {
                 id: userId

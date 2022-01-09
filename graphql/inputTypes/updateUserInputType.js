@@ -22,8 +22,8 @@ const updateUserInputType = new GraphQLInputObjectType({
         jobId: {
             type: GraphQLInt
         },
-        statusId: {
-            type: GraphQLInt
+        status: {
+            type: GraphQLString
         }
     }
 })
