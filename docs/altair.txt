@@ -43,6 +43,45 @@ query AllUsersInterestsPosts{
   }
 }
 
+query AllUsersJobs{
+  users{
+    id
+    email
+    firstName
+    lastName
+    jobs{
+      id
+    	name
+    }
+  }
+}
+
+query GetJobById{
+  job(id: 14){
+    name
+  }
+}
+
+query GetCompaniesAndUsers{
+  companies{
+    name
+    users{
+      id
+      firstName
+      lastName
+    }
+  }
+}
+
+query GetUsersByStatus{
+  usersByStatus(status:"Working"){
+    age
+    firstName
+    lastName
+    status
+  }
+}
+
 query UserByIdAndInterests{
   user(id: 12){
     id
@@ -155,7 +194,7 @@ mutation creeareuser{
     userName:"cosminlcuain58"
     age:40
     jobId:10
-    status:2
+    status: "Working"
   }){
     id
     email
