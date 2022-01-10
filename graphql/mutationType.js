@@ -1,7 +1,8 @@
-const {GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLID, GraphQLList} = require('graphql');
+const {GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLID, GraphQLList, GraphQLBoolean} = require('graphql');
 const userType = require('./types/userType')
 const postType = require('./types/postType')
 const interestType = require('./types/interestType')
+const friendRequestType = require('./types/friendRequestType')
 const loginResultType = require('./types/loginResultType')
 const loginInputType = require('./inputTypes/loginInputType')
 const createUserInputType = require('./inputTypes/createUserInputType')
@@ -14,8 +15,9 @@ const db = require('../models')
 
 
 const {createUser, updateUser, deleteUser} = require('../repository/users');
-const {deletePost,createPost} = require('../repository/posts')
-const {deleteInterest,addInterest} = require('../repository/interests')
+const {deletePost, createPost} = require('../repository/posts')
+const {deleteInterest, addInterest} = require('../repository/interests')
+const {sendFriendRequest, acceptFriendRequest} = require('../repository/friendRequests')
 
 
 const mutationType = new GraphQLObjectType({
@@ -124,6 +126,28 @@ const mutationType = new GraphQLObjectType({
                 return deleteInterest(args, context);
             }
 
+        },
+        sendFriendRequest: {
+            type: friendRequestType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, args, context) => {
+                return sendFriendRequest(args, context)
+            }
+        },
+        acceptFriendRequest: {
+            type: GraphQLBoolean,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, args, context) => {
+                return acceptFriendRequest(args, context)
+            }
         }
         // updateStatus: {
         //     type: userType,

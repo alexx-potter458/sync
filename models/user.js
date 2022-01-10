@@ -15,15 +15,34 @@ module.exports = (sequelize, DataTypes) => {
                 through: models.UserJob
             })
             models.User.hasMany(models.Post)
-            models.User.hasMany(models.FriendRequest)
+            // models.User.hasMany(models.FriendRequest)
             models.User.belongsToMany(models.User, {
                 through: models.FriendRequest,
                 as: 'User1',
+                foreignKey: 'toUserId',
+                otherKey:'fromUserId'
             })
             models.User.belongsToMany(models.User, {
                 through: models.FriendRequest,
                 as: 'User2',
+                foreignKey: 'fromUserId',
+                otherKey:'toUserId'
             })
+
+            // models.User.belongsToMany(models.User, {
+            //     through: models.Friend,
+            //     as: 'Friend1',
+            //     foreignKey: 'userId',
+            //     otherKey:'friendId'
+            // })
+            // models.User.belongsToMany(models.User, {
+            //     through: models.Friend,
+            //     as: 'Friend2',
+            //     foreignKey: 'friendId',
+            //     otherKey:'userId'
+            // })
+
+
             models.User.hasMany(models.Friend)
         }
     };

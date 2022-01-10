@@ -8,13 +8,15 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.FriendRequest.belongsTo(
         models.User, {
-          foreignKey: 'fromUserId'
+          foreignKey:"id",
+          as:'User2'
         }
       )
       
       models.FriendRequest.belongsTo(
         models.User, {
-          foreignKey: 'toUserId'
+          foreignKey: 'id',
+            as:'User1'
         }
       )
       

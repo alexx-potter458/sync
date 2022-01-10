@@ -2,9 +2,10 @@ const {GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList} = require("grap
 const interestType = require("./interestType");
 const postType = require("./postType");
 const friendType = require("./friendType");
+const friendRequestType = require("./friendRequestType");
 const jobType = require('./jobType')
 const companyType = require('./companyType');
-
+const {getFriendRequestsForUser} = require('C:\\Users\\cbeja\\Documents\\Facultate\\anu3_sem1\\node_js\\PROIECTREALTERMINAL\\sync\\repository\\friendRequests.js')
 
 const userType = new GraphQLObjectType({
     name: 'User',
@@ -47,6 +48,15 @@ const userType = new GraphQLObjectType({
                 return await source.getCompanies()
             }
         },
+        friendRequests:{
+            type: new GraphQLList(friendRequestType),
+            resolve: async (source, args, context) =>{
+                // console.log(await source.getFriendRequests())
+                // return await source.getFriendRequests()
+                return getFriendRequestsForUser(source)
+                // return null
+            }
+        }
         // usersByStatus: {
         //     type: new GraphQLList(statusType),
         //     resolve: async(source) => {

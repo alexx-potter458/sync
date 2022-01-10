@@ -16,27 +16,27 @@ const queryType = new GraphQLObjectType({
                 return await db.User.findAll();
             }
         },
-        user:{
-            type:userType,
-            args:{
-                id:{
-                    type:new GraphQLNonNull(GraphQLID),
+        user: {
+            type: userType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID),
                 }
             },
             resolve: async (source, {id}, context) => {
-                return await  db.User.findByPk(id);
+                return await db.User.findByPk(id);
             }
         },
-        interests:{
+        interests: {
             type: new GraphQLList(interestType),
-            resolve:async () => {
+            resolve: async () => {
                 return await db.Interest.findAll();
             }
         },
-        interest:{
+        interest: {
             type: interestType,
-            args:{
-                id:{
+            args: {
+                id: {
                     type: new GraphQLNonNull(GraphQLID)
                 }
             },
@@ -44,33 +44,33 @@ const queryType = new GraphQLObjectType({
                 return await db.Interest.findByPk(id);
             }
         },
-        posts:{
-            type:new GraphQLList(postType),
-            resolve: async () =>{
+        posts: {
+            type: new GraphQLList(postType),
+            resolve: async () => {
                 return await db.Post.findAll();
             }
         },
-        post:{
-            type:postType,
-            args:{
-                id:{
+        post: {
+            type: postType,
+            args: {
+                id: {
                     type: new GraphQLNonNull(GraphQLID)
                 }
             },
-            resolve: async(source, {id}) =>{
+            resolve: async (source, {id}) => {
                 return await db.Post.findByPk(id);
             }
         },
-        jobs:{
+        jobs: {
             type: new GraphQLList(jobType),
-            resolve: async() => {
+            resolve: async () => {
                 return await db.Job.findAll()
             }
         },
         job: {
             type: jobType,
-            args:{
-                id:{
+            args: {
+                id: {
                     type: new GraphQLNonNull(GraphQLID)
                 }
             },
@@ -80,40 +80,43 @@ const queryType = new GraphQLObjectType({
         },
         companies: {
             type: new GraphQLList(companyType),
-            resolve: async(source) => {
+            resolve: async (source) => {
                 return await db.Company.findAll()
             }
         },
         usersByStatus: {
             type: new GraphQLList(userType),
-            args:{
-                status:{
+            args: {
+                status: {
                     type: new GraphQLNonNull(GraphQLString)
                 }
             },
-            resolve: async(source, {status}) => {
+            resolve: async (source, {status}) => {
                 console.log(status)
                 return await db.User.findAll({
                     where: {status: status}
                 })
             }
         },
-        loggedInUser:{
+        loggedInUser: {
             type: userType,
-            resolve: async(source,args, context) =>{
+            resolve: async (source, args, context) => {
                 const {user} = context;
                 return await db.User.findByPk(user.id);
             }
         },
-        allFriendRequest:{
-            type:friendRequestType,
-            resolve: async(source,args,context) =>{
-                console.log("test");
-                const aux = await db.FriendRequest.findByPk(10)
-                console.log(aux)
-                return null;
+        allFriendRequest: {
+            type: new GraphQLList(friendRequestType),
+            resolve: async (source, args, context) => {
+                return await db.FriendRequest.findAll();
             }
-        }
+        },
+        // loggedInUserFriendRequests: {
+        //     type: new GraphQLList(friendRequestType),
+        //     resolve: async (source, args, context) => {
+        //         return await db
+        //     }
+        // }
     }
 });
 

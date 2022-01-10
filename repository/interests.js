@@ -9,9 +9,6 @@ module.exports.deleteInterest = async (args, context) => {
 
     let idInteres = args.id
     try {
-        const response = await db.Interest.destroy({
-            where: {id: idInteres}
-        })
         if (response) {
             return {ok: response}
         } else {

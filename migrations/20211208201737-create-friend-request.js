@@ -2,16 +2,14 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('FriendRequests', {
-      id: {
+      fromUserId: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      fromUserId: {
-        type: Sequelize.INTEGER
-      },
       toUserId: {
+        allowNull: false,
+        primaryKey: true,
         type: Sequelize.INTEGER
       },
       status: {
