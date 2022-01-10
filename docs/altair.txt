@@ -1,8 +1,8 @@
-http://localhost:2022/graphql
+# http://localhost:2022/graphql
 
 mutation Login{
   login(loginInput: {
-    email:"andrei@yahoo.com",
+    email:"Mae.McDermott@hotmail.com",
     password:"password"
   }){
     token
@@ -18,7 +18,6 @@ query AllUsers{
     age
     jobId
     status
-    
   }
 }
 
@@ -83,7 +82,7 @@ query GetUsersByStatus{
 }
 
 query UserByIdAndInterests{
-  user(id: 12){
+  user(id: 2){
     id
     email
     firstName
@@ -100,7 +99,7 @@ query UserByIdAndInterests{
 }
 
 query UserByIdAndPosts{
-  user(id: 12){
+  user(id: 2){
     id
     email
     firstName
@@ -109,13 +108,17 @@ query UserByIdAndPosts{
     jobId
     status
     posts{
+      id
       postText
+  		author{
+        email
+      }
     }
   }
 }
 
 query UserByIdAndFriends{
-  user(id: 12){
+  user(id: 2){
     id
     email
     firstName
@@ -124,6 +127,8 @@ query UserByIdAndFriends{
     jobId
     status
     friends{
+      userId
+      friendId
       friend{
         id
         email
@@ -168,6 +173,10 @@ query PostById{
   }
 }
 
+
+
+
+
 query PostAuthor{
   posts{
     postText
@@ -183,11 +192,11 @@ query PostAuthor{
 
 mutation creeareuser{
   createUser(createUserInput: {
-    email:"andrei@yahoo.com",
+    email:"cosminl2ucain448@yahoo.com",
     password:"password"
-    firstName:"dada"
-    lastName:"mrr"
-    userName:"frtyhoo"
+    firstName:"Cos2min"
+    lastName:"Luc2ian"
+    userName:"cosminlcuain58"
     age:40
     jobId:10
     status: "Working"
@@ -196,34 +205,152 @@ mutation creeareuser{
     email
   }
 }
-mutation updateunuser{
-  updateUser(updateUserInput: {
-    email:"andrei@yahoo.com"
-    firstName:"dada"
-    status: "Recruting",
-    lastName: "test"
+# mutation updateunuser{
+#   updateUser(updateUserInput: {
+#     email:"George11@hotmail.com"
+#     firstName:"George"
+#   }){
+#     email
+#     firstName
+#   }
+# }
+mutation addPost{
+  createPost(createPostInput: {
+    postText:"test"
   }){
+    id
+    postText
+    author{
+      email
+      lastName
+    }
+  }
+}
+
+## adaugare interese dupa id sau nume
+mutation addInterestToUserByInterestName{
+  addInterestByInterestName(addInterestInput:{
+    name:"Generic Soft Shirtt"
+  }){
+    id
+    name
+    description
+    status
+    
+    
+  }
+}
+mutation addInterestToUserByInterestId{
+  addInterestByInterestId(addInterestInput:{
+    id:2222
+  }){
+    id
+    name
+    description
+    status
+    
+  }
+}
+
+query loggedInUserInfo{
+  loggedInUser{
+    id
     email
     firstName
+    lastName
+    age
+    jobId
+    status
+    interests{
+      name
+    }
   }
 }
-
-mutation stergeUser{
-  deleteUser(id: 8){
+query UserByIdAndInterests2{
+  user(id: 2){
     id
-  }
-}
-
-mutation stergePost{
-  deletePost(id: 1){
-    id
+    email
+    firstName
+    lastName
+    age
+    jobId
+    status
+    interests{
+      id
+      name
+      description
+      status
+    }
   }
 }
 
 mutation stergeInteres{
-  deleteInterest(id: 1){
+  deleteInterest(id: 14){
+    id
+  }
+}
+###########3
+
+mutation stergePost{
+  deletePost(id: 201){
     id
   }
 }
 
 
+
+
+query allFriendsRequests{
+  allFriendRequest{
+    fromUserId
+    toUserId
+    status
+  }
+}
+
+query loggedInUserFriendRequests{
+  loggedInUser{
+    email
+    friendRequests{
+      toUserId
+      fromUserId
+    }
+  }
+}
+mutation sendFriendRequest{
+  sendFriendRequest(id: 27){
+    fromUserId
+    toUserId
+    status
+  }
+}
+
+
+mutation acceptFriendRequest{
+  acceptFriendRequest(id: 99)
+}
+
+query UserByIdAndFriends2{
+  user(id: 3){
+    id
+    email
+    firstName
+    lastName
+    age
+    jobId
+    status
+    friends{
+      userId
+      friendId
+      friend{
+        id
+        email
+        firstName
+        lastName
+        age
+        jobId
+        status
+      }
+    }
+  }
+}
