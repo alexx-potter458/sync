@@ -1,4 +1,5 @@
 const {GraphQLObjectType, GraphQLString, GraphQLID} = require("graphql");
+
 const interestType = new GraphQLObjectType({
     name: 'Interest',
     fields: {
