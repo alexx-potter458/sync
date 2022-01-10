@@ -5,6 +5,7 @@ const postType = require('./types/postType')
 const interestType = require('./types/interestType');
 const jobType = require('./types/jobType');
 const companyType = require('./types/companyType');
+const friendRequestType = require('./types/friendRequestType');
 
 const queryType = new GraphQLObjectType({
     name: 'Query',
@@ -95,6 +96,22 @@ const queryType = new GraphQLObjectType({
                 return await db.User.findAll({
                     where: {status: status}
                 })
+            }
+        },
+        loggedInUser:{
+            type: userType,
+            resolve: async(source,args, context) =>{
+                const {user} = context;
+                return await db.User.findByPk(user.id);
+            }
+        },
+        allFriendRequest:{
+            type:friendRequestType,
+            resolve: async(source,args,context) =>{
+                console.log("test");
+                const aux = await db.FriendRequest.findByPk(10)
+                console.log(aux)
+                return null;
             }
         }
     }

@@ -1,4 +1,4 @@
-const {GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList} = require('graphql');
+const {GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLID, GraphQLList} = require('graphql');
 const userType = require('./types/userType')
 const postType = require('./types/postType')
 const interestType = require('./types/interestType')
@@ -8,12 +8,15 @@ const createUserInputType = require('./inputTypes/createUserInputType')
 const updateUserInputType = require('./inputTypes/updateUserInputType')
 const createPostInputType = require('./inputTypes/createPostInputType')
 const addInterestInputType = require('./inputTypes/addInterestInputType')
+const addInterestInputTypeWithInterestId = require('./inputTypes/addInterestInputTypeWithInterestId')
 const loginHandler = require('../repository/login')
 const db = require('../models')
 
-const { createUser, updateUser } = require('../repository/users');
-const { createPost } = require('../repository/post');
-const { addInterest } = require('../repository/interest');
+
+const {createUser, updateUser, deleteUser} = require('../repository/users');
+const {deletePost,createPost} = require('../repository/posts')
+const {deleteInterest,addInterest} = require('../repository/interests')
+
 
 const mutationType = new GraphQLObjectType({
     name: 'Mutation',
@@ -55,28 +58,81 @@ const mutationType = new GraphQLObjectType({
                 return updateUser(args.updateUserInput, context);
             }
         },
-        createPost:{
+        createPost: {
             type: postType,
-            args:{
-                createPostInput:{
-                    type:createPostInputType,
+            args: {
+                createPostInput: {
+                    type: createPostInputType,
                 }
             },
-            resolve: async (source, args,context) => {
-                return createPost(args.createPostInput,context)
+            resolve: async (source, args, context) => {
+                return createPost(args.createPostInput, context)
             }
         },
-        addInterest:{
-            type:new GraphQLList(interestType),
-            args:{
-                addInterestInput:{
-                    type:addInterestInputType,
+        addInterestByInterestId: {
+            type: new GraphQLList(interestType),
+            args: {
+                addInterestInput: {
+                    type: addInterestInputTypeWithInterestId,
                 }
             },
-            resolve: async (source,args, context) =>{
+            resolve: async (source, args, context) => {
                 return addInterest(args.addInterestInput, context)
             }
+        },
+        addInterestByInterestName: {
+            type: new GraphQLList(interestType),
+            args: {
+                addInterestInput: {
+                    type: addInterestInputType,
+                }
+            },
+            resolve: async (source, args, context) => {
+                return addInterest(args.addInterestInput, context)
+            }
+        },
+        deleteUser: {
+            type: userType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, args, context) => {
+                return deleteUser(args, context);
+            }
+        },
+        deletePost: {
+            type: postType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, args, context) => {
+                return deletePost(args, context);
+            }
+        },
+        deleteInterest: {
+            type: interestType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, args, context) => {
+                return deleteInterest(args, context);
+            }
+
         }
+        // updateStatus: {
+        //     type: userType,
+        //     args: {
+        //         updateUserStatus: {
+        //             type: updateUserStatusInputType
+        //         }
+        //     }
+        // }
     }
 });
 

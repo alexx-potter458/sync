@@ -2,7 +2,7 @@ http://localhost:2022/graphql
 
 mutation Login{
   login(loginInput: {
-    email:"Antonette11@hotmail.com",
+    email:"andrei@yahoo.com",
     password:"password"
   }){
     token
@@ -168,10 +168,6 @@ query PostById{
   }
 }
 
-
-
-
-
 query PostAuthor{
   posts{
     postText
@@ -187,11 +183,11 @@ query PostAuthor{
 
 mutation creeareuser{
   createUser(createUserInput: {
-    email:"cosminl2ucain448@yahoo.com",
+    email:"andrei@yahoo.com",
     password:"password"
-    firstName:"Cos2min"
-    lastName:"Luc2ian"
-    userName:"cosminlcuain58"
+    firstName:"dada"
+    lastName:"mrr"
+    userName:"frtyhoo"
     age:40
     jobId:10
     status: "Working"
@@ -202,10 +198,32 @@ mutation creeareuser{
 }
 mutation updateunuser{
   updateUser(updateUserInput: {
-    email:"George11@hotmail.com"
-    firstName:"George"
+    email:"andrei@yahoo.com"
+    firstName:"dada"
+    status: "Recruting",
+    lastName: "test"
   }){
     email
     firstName
   }
 }
+
+mutation stergeUser{
+  deleteUser(id: 8){
+    id
+  }
+}
+
+mutation stergePost{
+  deletePost(id: 1){
+    id
+  }
+}
+
+mutation stergeInteres{
+  deleteInterest(id: 1){
+    id
+  }
+}
+
+
