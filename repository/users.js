@@ -106,18 +106,23 @@ module.exports.resignFromJob = async (context) => {
     }
 }
 
-module.exports.addJob = async (args, context) => {
+module.exports.getAJob = async (args, context) => {
     const {user} = context;
     const {jobId} = args;
-    if (!user) {
-        return false;
+    console.log(user.jobId);
+    if (!user || !jobId || user.jobId!=null) {
+        console.log("ce ma")
+        return null;
     }
+
     try {
-        user.jobId = null;
+        user.set({
+            jobId,
+            status: "Working"
+        })
         const response = await user.save();
-        console.log(response)
         if (response != null) {
-            return true;
+            return await db.Job.findByPk(jobId);
         }
         return false;
     } catch (error) {

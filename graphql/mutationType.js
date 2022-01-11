@@ -8,6 +8,7 @@ const {
     GraphQLInt
 } = require('graphql');
 const userType = require('./types/userType')
+const jobType = require('./types/jobType')
 const postType = require('./types/postType')
 const interestType = require('./types/interestType')
 const friendRequestType = require('./types/friendRequestType')
@@ -22,7 +23,7 @@ const loginHandler = require('../repository/login')
 const db = require('../models')
 
 
-const {createUser, updateUser, deleteUser, checkGradeWithUser, resignFromJob} = require('../repository/users');
+const {createUser, updateUser, deleteUser, checkGradeWithUser, resignFromJob, getAJob} = require('../repository/users');
 const {deletePost, createPost} = require('../repository/posts')
 const {deleteInterest, addInterest} = require('../repository/interests')
 const {sendFriendRequest, acceptFriendRequest, rejectFriendRequest} = require('../repository/friendRequests')
@@ -30,160 +31,172 @@ const {contentDisposition} = require("express/lib/utils");
 
 
 const mutationType = new GraphQLObjectType({
-    name: 'Mutation',
-    fields: {
-        login: {
-            type: loginResultType,
-            args: {
-                loginInput: {
-                    type: loginInputType
+        name: 'Mutation',
+        fields: {
+            login: {
+                type: loginResultType,
+                args: {
+                    loginInput: {
+                        type: loginInputType
+                    }
+                },
+                resolve: (source, args, context) => {
+                    const {email, password} = args.loginInput;
+                    const token = loginHandler(email, password);
+                    return {
+                        token,
+                    }
                 }
             },
-            resolve: (source, args, context) => {
-                const {email, password} = args.loginInput;
-                const token = loginHandler(email, password);
-                return {
-                    token,
-                }
-            }
-        },
-        createUser: {
-            type: userType,
-            args: {
-                createUserInput: {
-                    type: createUserInputType,
+            createUser: {
+                type: userType,
+                args: {
+                    createUserInput: {
+                        type: createUserInputType,
+                    }
+                },
+                resolve: async (source, args) => {
+                    return createUser(args.createUserInput)
                 }
             },
-            resolve: async (source, args) => {
-                return createUser(args.createUserInput)
-            }
-        },
-        updateUser: {
-            type: userType,
-            args: {
-                updateUserInput: {
-                    type: updateUserInputType
+            updateUser: {
+                type: userType,
+                args: {
+                    updateUserInput: {
+                        type: updateUserInputType
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return updateUser(args.updateUserInput, context);
                 }
             },
-            resolve: async (source, args, context) => {
-                return updateUser(args.updateUserInput, context);
-            }
-        },
-        createPost: {
-            type: postType,
-            args: {
-                createPostInput: {
-                    type: createPostInputType,
+            createPost: {
+                type: postType,
+                args: {
+                    createPostInput: {
+                        type: createPostInputType,
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return createPost(args.createPostInput, context)
                 }
             },
-            resolve: async (source, args, context) => {
-                return createPost(args.createPostInput, context)
-            }
-        },
-        addInterestByInterestId: {
-            type: new GraphQLList(interestType),
-            args: {
-                addInterestInput: {
-                    type: addInterestInputTypeWithInterestId,
+            addInterestByInterestId: {
+                type: new GraphQLList(interestType),
+                args: {
+                    addInterestInput: {
+                        type: addInterestInputTypeWithInterestId,
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return addInterest(args.addInterestInput, context)
                 }
             },
-            resolve: async (source, args, context) => {
-                return addInterest(args.addInterestInput, context)
-            }
-        },
-        addInterestByInterestName: {
-            type: new GraphQLList(interestType),
-            args: {
-                addInterestInput: {
-                    type: addInterestInputType,
+            addInterestByInterestName: {
+                type: new GraphQLList(interestType),
+                args: {
+                    addInterestInput: {
+                        type: addInterestInputType,
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return addInterest(args.addInterestInput, context)
                 }
             },
-            resolve: async (source, args, context) => {
-                return addInterest(args.addInterestInput, context)
-            }
-        },
-        deleteUser: {
-            type: userType,
-            args: {
-                id: {
-                    type: new GraphQLNonNull(GraphQLID)
+            deleteUser: {
+                type: userType,
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLID)
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return deleteUser(args, context);
                 }
             },
-            resolve: async (source, args, context) => {
-                return deleteUser(args, context);
-            }
-        },
-        deletePost: {
-            type: new GraphQLList(postType),
-            args: {
-                id: {
-                    type: new GraphQLNonNull(GraphQLID)
+            deletePost: {
+                type: new GraphQLList(postType),
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLID)
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return deletePost(args, context);
                 }
             },
-            resolve: async (source, args, context) => {
-                return deletePost(args, context);
-            }
-        },
-        deleteInterest: {
-            type: new GraphQLList(interestType),
-            args: {
-                id: {
-                    type: new GraphQLNonNull(GraphQLID)
+            deleteInterest: {
+                type: new GraphQLList(interestType),
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLID)
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return deleteInterest(args, context);
                 }
-            },
-            resolve: async (source, args, context) => {
-                return deleteInterest(args, context);
-            }
 
-        },
-        sendFriendRequest: {
-            type: GraphQLBoolean,
-            args: {
-                id: {
-                    type: new GraphQLNonNull(GraphQLID)
+            },
+            sendFriendRequest: {
+                type: GraphQLBoolean,
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLID)
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return sendFriendRequest(args, context)
                 }
             },
-            resolve: async (source, args, context) => {
-                return sendFriendRequest(args, context)
-            }
-        },
-        acceptFriendRequest: {
-            type: GraphQLBoolean,
-            args: {
-                id: {
-                    type: new GraphQLNonNull(GraphQLID)
+            acceptFriendRequest: {
+                type: GraphQLBoolean,
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLID)
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return acceptFriendRequest(args, context)
                 }
             },
-            resolve: async (source, args, context) => {
-                return acceptFriendRequest(args, context)
-            }
-        },
-        rejectFriendRequest: {
-            type: GraphQLBoolean,
-            args: {
-                id: {
-                    type: new GraphQLNonNull(GraphQLID)
+            rejectFriendRequest: {
+                type: GraphQLBoolean,
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLID)
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return rejectFriendRequest(args, context)
                 }
             },
-            resolve: async (source, args, context) => {
-                return rejectFriendRequest(args, context)
+            resignFromJob: {
+                type: GraphQLBoolean,
+                resolve: async (source, args, context) => {
+                    return resignFromJob(context)
+                }
+            },
+            getAJob: {
+                type: jobType,
+                args: {
+                    jobId: {
+                        type: new GraphQLNonNull(GraphQLID)
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return getAJob(args, context);
+                }
             }
-        },
-        resignFromJob: {
-            type: GraphQLBoolean,
-            resolve: async (source, args, context) => {
-                return resignFromJob(context)
-            }
+// updateStatus: {
+//     type: userType,
+//     args: {
+//         updateUserStatus: {
+//             type: updateUserStatusInputType
+//         }
+//     }
+// }
         }
-        // updateStatus: {
-        //     type: userType,
-        //     args: {
-        //         updateUserStatus: {
-        //             type: updateUserStatusInputType
-        //         }
-        //     }
-        // }
-    }
-});
+    })
+;
 
 module.exports = mutationType;
