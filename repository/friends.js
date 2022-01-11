@@ -14,10 +14,12 @@ module.exports.addFriend = async (userOneId, userTwoId) => {
                 friendId: userTwoId,
             }
         });
-        if (!user1 || !user2 || user1and2friends) {
+        // console.log(user1,user2, user1and2friends)
+        if (!user1 || !user2 || !(user1and2friends.length===0)) {
             return null;
         } else {
             try {
+
                 const response1 = await db.Friend.create({
                     userId: userOneId,
                     friendId: userTwoId,
