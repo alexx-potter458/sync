@@ -1,4 +1,4 @@
-const {GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLID, GraphQLList, GraphQLBoolean} = require('graphql');
+const {GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLID, GraphQLList, GraphQLBoolean, GraphQLInt} = require('graphql');
 const userType = require('./types/userType')
 const postType = require('./types/postType')
 const interestType = require('./types/interestType')
@@ -14,10 +14,11 @@ const loginHandler = require('../repository/login')
 const db = require('../models')
 
 
-const {createUser, updateUser, deleteUser} = require('../repository/users');
+const {createUser, updateUser, deleteUser, checkGradeWithUser,resignFromJob} = require('../repository/users');
 const {deletePost, createPost} = require('../repository/posts')
 const {deleteInterest, addInterest} = require('../repository/interests')
-const {sendFriendRequest, acceptFriendRequest} = require('../repository/friendRequests')
+const {sendFriendRequest, acceptFriendRequest, rejectFriendRequest} = require('../repository/friendRequests')
+const {contentDisposition} = require("express/lib/utils");
 
 
 const mutationType = new GraphQLObjectType({
@@ -128,7 +129,7 @@ const mutationType = new GraphQLObjectType({
 
         },
         sendFriendRequest: {
-            type: friendRequestType,
+            type: GraphQLBoolean,
             args: {
                 id: {
                     type: new GraphQLNonNull(GraphQLID)
@@ -147,6 +148,35 @@ const mutationType = new GraphQLObjectType({
             },
             resolve: async (source, args, context) => {
                 return acceptFriendRequest(args, context)
+            }
+        },
+        rejectFriendRequest: {
+            type: GraphQLBoolean,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async (source, args, context) => {
+                return rejectFriendRequest(args, context)
+            }
+        },
+        // not ready
+        checkGradeWithUser:{
+            type: GraphQLInt,
+            args:{
+                friendId: {
+                    type: new GraphQLNonNull(GraphQLID)
+                }
+            },
+            resolve: async(source, args, context) =>{
+                return checkGradeWithUser(args,context)
+            }
+        },
+        resignFromJob:{
+            type:GraphQLBoolean,
+            resolve: async(source, args, context) => {
+                return resignFromJob(context)
             }
         }
         // updateStatus: {

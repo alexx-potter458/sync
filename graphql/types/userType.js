@@ -36,10 +36,16 @@ const userType = new GraphQLObjectType({
             }
         },
         jobs: {
-            type: new GraphQLList(jobType),
+            type: jobType,
             resolve: async (source) => {
-                // console.log(source)
-                return await source.getJobs()
+                try {
+                    const aux = await source.getJob()
+                    console.log("aici e ce cauti: ", aux)
+                    return await source.getJob()
+                }catch (error){
+                    console.error(error)
+                    return null
+                }
             }
         },
         companies: {

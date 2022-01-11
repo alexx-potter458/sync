@@ -2,7 +2,7 @@
 
 mutation Login{
   login(loginInput: {
-    email:"Mae.McDermott@hotmail.com",
+    email:"Carrie35@yahoo.com",
     password:"password"
   }){
     token
@@ -38,7 +38,7 @@ query AllUsersInterestsPosts{
       description
       status
     }
-    
+
   }
 }
 
@@ -185,7 +185,7 @@ query PostAuthor{
       firstName
       lastName
     }
-    
+
   }
 }
 
@@ -236,8 +236,8 @@ mutation addInterestToUserByInterestName{
     name
     description
     status
-    
-    
+
+
   }
 }
 mutation addInterestToUserByInterestId{
@@ -248,7 +248,7 @@ mutation addInterestToUserByInterestId{
     name
     description
     status
-    
+
   }
 }
 
@@ -310,7 +310,12 @@ query allFriendsRequests{
 
 query loggedInUserFriendRequests{
   loggedInUser{
+    id
     email
+    jobId
+    jobs{
+      name
+    }
     friendRequests{
       toUserId
       fromUserId
@@ -318,11 +323,7 @@ query loggedInUserFriendRequests{
   }
 }
 mutation sendFriendRequest{
-  sendFriendRequest(id: 27){
-    fromUserId
-    toUserId
-    status
-  }
+  sendFriendRequest(id: 899)
 }
 
 
@@ -330,27 +331,23 @@ mutation acceptFriendRequest{
   acceptFriendRequest(id: 99)
 }
 
+
+mutation rejectFriendRequest{
+  rejectFriendRequest(id: 89)
+}
+mutation checkGradeBetweenUsers{
+  checkGradeWithUser(friendId: 52)
+}
+
 query UserByIdAndFriends2{
-  user(id: 3){
+  user(id: 2){
     id
     email
-    firstName
-    lastName
-    age
-    jobId
-    status
     friends{
-      userId
       friendId
-      friend{
-        id
-        email
-        firstName
-        lastName
-        age
-        jobId
-        status
-      }
     }
   }
+}
+mutation resignFromJob{
+  resignFromJob
 }

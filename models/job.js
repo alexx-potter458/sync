@@ -10,9 +10,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'companyId'
       })
 
-      models.Job.belongsToMany(models.User, {
-        through: models.UserJob
-      })
+      // models.Job.belongsToMany(models.User, {
+      //   through: models.UserJob
+      // })
+      models.Job.hasOne(models.User,{
+        foreignKey:'jobId'
+      });
     }
   };
   Job.init({

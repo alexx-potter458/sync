@@ -19,15 +19,34 @@ module.exports.sendFriendRequest = async (args, context) => {
     if (!userCheck) {
         return null;
     }
+    const checkIfRequestExistsOneWay = await db.FriendRequest.findAll({
+        where: {
+            fromUserId: user.id,
+            toUserId: id,
+        }
+    })
+    const checkIfRequestExistsOtherWay = await db.FriendRequest.findAll({
+        where: {
+            fromUserId: id,
+            toUserId: user.id,
+        }
+    })
+
+    if (checkIfRequestExistsOneWay.length !== 0 || checkIfRequestExistsOtherWay.length !== 0) {
+        return null;
+    }
 
     try {
-        return await db.FriendRequest.create({
+        response = await db.FriendRequest.create({
             fromUserId: user.id,
             toUserId: id,
             status: 0
         })
-        // console.log(newFriendRequest)
-        // return null;
+        if (response) {
+            return true;
+        }
+        return null;
+
     } catch (error) {
         console.error(error)
         return null
@@ -57,6 +76,32 @@ module.exports.acceptFriendRequest = async (args, context) => {
         } catch (error) {
             console.error(error)
         }
+    }
+}
+
+module.exports.rejectFriendRequest = async (args, context) => {
+    const {user} = context
+    const {id} = args
+    if (!user) {
+        return null;
+    }
+    //
+    // const aux = await db.FriendRequest.findAll({
+    //     where:{
+    //         toUserId:user.id,
+    //         fromUserId: id,
+    //     }
+    // })
+
+    try{
+        return await db.FriendRequest.destroy({
+            where:{
+                toUserId:user.id,
+                fromUserId: id,
+            }
+        })
+    }catch(error){
+        console.log(error)
     }
 }
 

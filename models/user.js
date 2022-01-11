@@ -11,8 +11,11 @@ module.exports = (sequelize, DataTypes) => {
                 through: models.UserInterest
             })
 
-            models.User.belongsToMany(models.Job, {
-                through: models.UserJob
+            // models.User.belongsToMany(models.Job, {
+            //     through: models.UserJob
+            // })
+            models.User.belongsTo(models.Job,{
+                foreignKey:'jobId'
             })
             models.User.hasMany(models.Post)
             // models.User.hasMany(models.FriendRequest)
