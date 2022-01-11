@@ -5,7 +5,7 @@ const friendType = require("./friendType");
 const friendRequestType = require("./friendRequestType");
 const jobType = require('./jobType')
 const companyType = require('./companyType');
-const {getFriendRequestsForUser} = require('C:\\Users\\cbeja\\Documents\\Facultate\\anu3_sem1\\node_js\\PROIECTREALTERMINAL\\sync\\repository\\friendRequests.js')
+const {getFriendRequestsForUser} = require('../../repository/friendRequests');
 
 const userType = new GraphQLObjectType({
     name: 'User',

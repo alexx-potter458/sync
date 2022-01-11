@@ -59,10 +59,10 @@ module.exports.acceptFriendRequest = async (args, context) => {
     if (!user) {
         return null;
     }
-    if (addFriend(user.id, id)) {
+    const aux =await addFriend(user.id, id);
+    console.log(aux)
+    if (aux) {
         try {
-            console.log("am ajuns aici2")
-
             const response = await db.FriendRequest.destroy({
                 where: {
                     fromUserId: id,
