@@ -48,12 +48,12 @@ const userType = new GraphQLObjectType({
                 }
             }
         },
-        companies: {
-            type: new GraphQLList(companyType),
-            resolve: async (source) => {
-                return await source.getCompanies()
-            }
-        },
+        // companies: {
+        //     type: new GraphQLList(companyType),
+        //     resolve: async (source) => {
+        //         return await source.getCompanies()
+        //     }
+        // },
         friendRequests:{
             type: new GraphQLList(friendRequestType),
             resolve: async (source, args, context) =>{

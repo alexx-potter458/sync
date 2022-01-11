@@ -14,6 +14,7 @@ module.exports = new GraphQLObjectType({
             author: {
                 type: userType,
                 resolve: async (source) => {
+                    console.log("altceva aici: ", source)
                     return (await db.User.findByPk(source.userId));
                 }
             }

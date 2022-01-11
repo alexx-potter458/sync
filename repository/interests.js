@@ -7,16 +7,17 @@ module.exports.deleteInterest = async (args, context) => {
         return null
     }
 
-    let idInteres = args.id
+    let interestId = args.id
     try {
         const response = await db.UserInterest.destroy({
             where: {
-                interestId: idInteres
+                interestId,
+                userId: user.id
             }
         });
-
+        console.log(response);
         if (response) {
-            return {ok: response}
+            return await user.getInterests();
         } else {
             console.log('aceast interes nu exista')
             return null

@@ -78,48 +78,6 @@ module.exports.deleteUser = async (args, context) => {
     }
 
 }
-module.exports.checkGradeWithUser = async (args, context) => {
-    const {friendId} = args;
-    const {user} = context;
-    if (!user) {
-        return null;
-    }
-    const aux = ceva(user.id, friendId, 1)
-    console.log("aux", aux)
-    return aux
-
-}
-
-
-async function ceva(userId, friendId, gr) {
-
-    console.log("iteratie: ", userId, friendId, gr)
-    if (gr === 4) {
-        return 4
-    }
-
-    const response = await db.Friend.findAll({
-        where: {
-            userId,
-            friendId
-        }
-    })
-    // console.log(response)
-    // console.log(response)
-    if (response.length > 0) {
-        console.log("grad: ", gr)
-        return gr;
-    }
-    const friendsRelations = await db.Friend.findAll({
-        where: {
-            userId: userId
-        }
-    });
-    friendsRelations.forEach((value => {
-        console.log("test ", value.dataValues.friendId);
-        return ceva(friendId, value.dataValues.friendId, gr + 1)
-    }))
-}
 
 module.exports.resignFromJob = async (context) => {
     const {user} = context;
@@ -127,7 +85,15 @@ module.exports.resignFromJob = async (context) => {
         return false;
     }
     try {
-        user.jobId = null;
+
+        if (user.status !== "Open for work") {
+            user.set({
+                jobId: null,
+                status: "Open for work"
+            })
+        } else {
+            user.jobId = null;
+        }
         const response = await user.save();
         console.log(response)
         if (response != null) {

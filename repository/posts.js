@@ -12,8 +12,13 @@ module.exports.deletePost = async (args, context) => {
         const response = await db.Post.destroy({
             where: {id: idPost}
         })
+
+        // const user = db.user.FindByPK(9).
+        //user.FirstName = "ANDrei"
+        //user.save()
+
         if(response){
-            return {ok: response}
+            return await user.getPosts();
         }else {
             console.log('aceasta postare nu exista')
             return null

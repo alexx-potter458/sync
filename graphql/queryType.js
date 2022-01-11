@@ -101,6 +101,7 @@ const queryType = new GraphQLObjectType({
         loggedInUser: {
             type: userType,
             resolve: async (source, args, context) => {
+
                 const {user} = context;
                 return await db.User.findByPk(user.id);
             }
