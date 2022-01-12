@@ -1,4 +1,5 @@
 const db = require('../models');
+const Permissions = require("../config/permissions");
 
 module.exports.deletePost = async (args, context) => {
     const {user} = context
@@ -43,6 +44,12 @@ module.exports.deletePostAsAdmin = async (args, context) => {
     }
     const userId = user.id
     let postId = args.id
+    const hasPermissions = await user.can(Permissions.UPDATE_USERS);
+
+    if(!hasPermissions){
+        return null;
+    }
+
     try {
         const response = await db.Post.destroy({
             where: {

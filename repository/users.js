@@ -145,7 +145,7 @@ module.exports.deleteUser = async (args, context) => {
             where: {id: idUser}
         })
         if (response) {
-            return {ok: response}
+            return true;
         } else {
             console.log('acest user nu exista')
             return null
