@@ -4,7 +4,7 @@ const faker = require('faker')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const dateFake = []  
-    let statusuri = ["Open for work", 'Working', 'Recruting']
+    let statusuri = ["Open for work", 'Working']
 
     for(let i = 0; i < 100; i ++){
       dateFake.push({
