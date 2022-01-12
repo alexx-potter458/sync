@@ -9,6 +9,14 @@ module.exports.getFriendRequestsForUser = async (source) => {
     });
 }
 
+module.exports.getSentFriendRequestsForUser = async (source) => {
+    return await db.FriendRequest.findAll({
+        where: {
+            fromUserId: source.id
+        }
+    });
+}
+
 module.exports.sendFriendRequest = async (args, context) => {
     const {user} = context
     const {id} = args
@@ -30,9 +38,24 @@ module.exports.sendFriendRequest = async (args, context) => {
             fromUserId: id,
             toUserId: user.id,
         }
+    });
+
+    const checkIfUsersAreFriends1 = await db.Friend.findAll({
+        where: {
+            userId: user.id,
+            friendId: id
+        }
     })
 
-    if (checkIfRequestExistsOneWay.length !== 0 || checkIfRequestExistsOtherWay.length !== 0) {
+    const checkIfUsersAreFriends2 = await db.Friend.findAll({
+        where: {
+            userId: id,
+            friendId: user.id
+        }
+    })
+
+    if (checkIfRequestExistsOneWay.length > 0 || checkIfRequestExistsOtherWay.length > 0
+        || checkIfUsersAreFriends1.length > 0 || checkIfUsersAreFriends2.length > 0) {
         return null;
     }
 
@@ -93,14 +116,14 @@ module.exports.rejectFriendRequest = async (args, context) => {
     //     }
     // })
 
-    try{
+    try {
         return await db.FriendRequest.destroy({
-            where:{
-                toUserId:user.id,
+            where: {
+                toUserId: user.id,
                 fromUserId: id,
             }
         })
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }

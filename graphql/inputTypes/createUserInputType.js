@@ -11,16 +11,16 @@ const createUserInputType = new GraphQLInputObjectType({
             type: new GraphQLNonNull(GraphQLString)
         },
         firstName:{
-            type:GraphQLString
+            type:new GraphQLNonNull(GraphQLString)
         },
         lastName:{
-            type:GraphQLString
+            type:new GraphQLNonNull(GraphQLString)
         },
         userName:{
-            type:GraphQLString
+            type:new GraphQLNonNull(GraphQLString)
         },
         age:{
-            type:GraphQLInt
+            type:new GraphQLNonNull(GraphQLInt)
         },
         jobId:{
             type:GraphQLInt

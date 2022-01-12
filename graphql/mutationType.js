@@ -16,6 +16,7 @@ const loginResultType = require('./types/loginResultType')
 const loginInputType = require('./inputTypes/loginInputType')
 const createUserInputType = require('./inputTypes/createUserInputType')
 const updateUserInputType = require('./inputTypes/updateUserInputType')
+const updateUserAsAdminInputType = require('./inputTypes/updateUserAsAdminInputType')
 const createPostInputType = require('./inputTypes/createPostInputType')
 const addInterestInputType = require('./inputTypes/addInterestInputType')
 const addInterestInputTypeWithInterestId = require('./inputTypes/addInterestInputTypeWithInterestId')
@@ -23,8 +24,8 @@ const loginHandler = require('../repository/login')
 const db = require('../models')
 
 
-const {createUser, updateUser, deleteUser, checkGradeWithUser, resignFromJob, getAJob} = require('../repository/users');
-const {deletePost, createPost} = require('../repository/posts')
+const {createUser, updateUser, deleteUser, updateUserAsAdmin, resignFromJob, getAJob} = require('../repository/users');
+const {deletePost,deletePostAsAdmin, createPost} = require('../repository/posts')
 const {deleteInterest, addInterest} = require('../repository/interests')
 const {sendFriendRequest, acceptFriendRequest, rejectFriendRequest} = require('../repository/friendRequests')
 const {contentDisposition} = require("express/lib/utils");
@@ -68,6 +69,17 @@ const mutationType = new GraphQLObjectType({
                 },
                 resolve: async (source, args, context) => {
                     return updateUser(args.updateUserInput, context);
+                }
+            },
+            updateUserAsAdmin: {
+                type: userType,
+                args: {
+                    updateUserAsAdminInput: {
+                        type: updateUserAsAdminInputType
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return updateUserAsAdmin(args.updateUserAsAdminInput, context);
                 }
             },
             createPost: {
@@ -123,6 +135,17 @@ const mutationType = new GraphQLObjectType({
                 },
                 resolve: async (source, args, context) => {
                     return deletePost(args, context);
+                }
+            },
+            deletePostAsAdmin: {
+                type: new GraphQLList(postType),
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLID)
+                    }
+                },
+                resolve: async (source, args, context) => {
+                    return deletePostAsAdmin(args, context);
                 }
             },
             deleteInterest: {

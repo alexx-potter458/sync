@@ -111,13 +111,7 @@ const queryType = new GraphQLObjectType({
             resolve: async (source, args, context) => {
                 return await db.FriendRequest.findAll();
             }
-        },
-        // loggedInUserFriendRequests: {
-        //     type: new GraphQLList(friendRequestType),
-        //     resolve: async (source, args, context) => {
-        //         return await db
-        //     }
-        // }
+        }
     }
 });
 

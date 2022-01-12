@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const findUser = require('../helpers/findUser');
 const { MY_SECRET_KEY } = require('../config/jwt');
 const db = require('../models')
 

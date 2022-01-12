@@ -1,7 +1,22 @@
 const db = require('../models');
+const userStatus = require('../config/userStatus');
 
 module.exports.createUser = async (args) => {
-    const {email, password, firstName, lastName, userName, age, jobId, status} = args;
+    const {email, password, firstName, lastName, userName, age, jobId} = args;
+
+    let statusAux = "";
+    if (args.status == null) {
+        statusAux = "Open for work"
+    } else if (args.status !== userStatus.OPEN_FOR_WORK && args.status !== userStatus.WORKING) {
+        statusAux = userStatus.OPEN_FOR_WORK;
+    } else {
+        statusAux = args.status;
+    }
+
+    console.log(statusAux)
+    const status = statusAux;
+
+
     try {
         const newUser = await db.User.create({
             email,
@@ -26,9 +41,22 @@ module.exports.updateUser = async (args, context) => {
         return null;
     }
     const userId = user.id;
-    const {email, firstName, lastName, userName, age, jobId, status} = args;
-    console.log("no try")
+    const {email, firstName, lastName, userName, age, jobId} = args;
+
+    let statusAux = "";
+    if (args.status == null) {
+        statusAux = user.status;
+    } else if (args.status !== userStatus.OPEN_FOR_WORK && args.status !== userStatus.WORKING) {
+        statusAux = userStatus.OPEN_FOR_WORK;
+    } else {
+        statusAux = args.status;
+    }
+    const status = statusAux;
+
     try {
+        if (status == null) {
+
+        }
         await db.User.update({
             email,
             firstName,
@@ -49,6 +77,47 @@ module.exports.updateUser = async (args, context) => {
         console("nnu i ok")
         console.error(error);
         return null;
+    }
+}
+
+module.exports.updateUserAsAdmin = async (args, context) => {
+    const {user} = context;
+    if (!user) {
+        return null;
+    }
+    const userId = user.id;
+    const {id, email, firstName, lastName, userName, age, jobId} = args;
+    if (!id) {
+        return null;
+    }
+    let statusAux = "";
+    if (args.status == null) {
+        statusAux = undefined;
+    } else if (args.status !== userStatus.OPEN_FOR_WORK && args.status !== userStatus.WORKING) {
+        statusAux = userStatus.OPEN_FOR_WORK;
+    } else {
+        statusAux = args.status;
+    }
+    const status = statusAux;
+
+
+    try {
+        await db.User.update({
+            email,
+            firstName,
+            lastName,
+            userName,
+            age,
+            jobId,
+            status
+        }, {
+            where: {
+                id
+            }
+        });
+        return await db.User.findByPk(id);
+    } catch (error) {
+        console.error(error);
     }
 }
 
@@ -110,7 +179,7 @@ module.exports.getAJob = async (args, context) => {
     const {user} = context;
     const {jobId} = args;
     console.log(user.jobId);
-    if (!user || !jobId || user.jobId!=null) {
+    if (!user || !jobId || user.jobId != null) {
         console.log("ce ma")
         return null;
     }

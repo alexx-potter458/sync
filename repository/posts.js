@@ -2,29 +2,32 @@ const db = require('../models');
 
 module.exports.deletePost = async (args, context) => {
     const {user} = context
-    if(!user){
+    if (!user) {
         console.log('N-avem pentru tine strainule!')
         return null
     }
+    const userId = user.id
+    let postId = args.id
+    try {
 
-    let idPost = args.id
-    try{
-        const response = await db.Post.destroy({
-            where: {id: idPost}
+        const posts = await db.Post.findAll({
+            where: {
+                id: postId,
+                userId
+            }
         })
-
-        // const user = db.user.FindByPK(9).
-        //user.FirstName = "ANDrei"
-        //user.save()
-
-        if(response){
-            return await user.getPosts();
-        }else {
-            console.log('aceasta postare nu exista')
-            return null
+        if (posts.length > 0) {
+            const response = await db.Post.destroy({
+                where: {
+                    id: postId, userId
+                }
+            })
+            if (response) {
+                return await user.getPosts();
+            }
         }
-
-    } catch (error){
+        return null;
+    } catch (error) {
         console.log('ceva n-a mers bine vere')
         console.error(error)
         return null
@@ -32,8 +35,34 @@ module.exports.deletePost = async (args, context) => {
 
 }
 
-module.exports.createPost = async (args,context) => {
-    const{user} = context;
+module.exports.deletePostAsAdmin = async (args, context) => {
+    const {user} = context
+    if (!user) {
+        console.log('N-avem pentru tine strainule!')
+        return null
+    }
+    const userId = user.id
+    let postId = args.id
+    try {
+        const response = await db.Post.destroy({
+            where: {
+                id: postId
+            }
+        })
+        if (response) {
+            return await db.Post.findAll();
+        }
+        return null;
+    } catch (error) {
+        console.log('ceva n-a mers bine vere')
+        console.error(error)
+        return null
+    }
+
+}
+
+module.exports.createPost = async (args, context) => {
+    const {user} = context;
     if (!user) {
         console.log(context)
         return null;

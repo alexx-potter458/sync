@@ -2,26 +2,71 @@
 
 mutation Login{
   login(loginInput: {
-    email:"Carrie35@yahoo.com",
+    email:"cosmin2l2ucain448@yahoo.com",
     password:"password"
   }){
     token
   }
 }
 
-query AllUsers{
-  users{
+mutation creeareuser{
+  createUser(createUserInput: {
+    email:"cosmin2l2ucain448@yahoo.com",
+    password:"password"
+    firstName:"Cos2min"
+    lastName:"Luc2ian"
+    userName:"cosminlcuain58"
+    age:40
+    jobId:10
+    status:"Working"
+  }){
     id
     email
-    firstName
-    lastName
-    age
-    jobId
     status
   }
 }
 
-query AllUsersInterestsPosts{
+query userLogat{
+  loggedInUser{
+    email
+    id
+    firstName
+    lastName
+    status
+  }
+}
+
+mutation updateunuser{
+  updateUser(updateUserInput: {
+    email:"Alysha_Homenick108@hotmail.com"
+    firstName:"Alysha"
+    lastName:"Homenick"
+  }){
+    email
+    firstName
+    status
+  }
+}
+
+# aici trebuie permisiune de admin
+mutation updateAnyUser{
+  updateUserAsAdmin(updateUserAsAdminInput: {
+    id:1
+    email:"DawnDickinson90@yahoo.com"
+    firstName:"Dawn"
+    lastName:"Dickinson"
+  }){
+    id
+    email
+    firstName
+    lastName
+    status
+    jobId
+
+  }
+}
+
+query AllUsersAndData{
   users{
     id
     email
@@ -31,27 +76,71 @@ query AllUsersInterestsPosts{
     jobId
     status
     posts{
-      postText
+      id
     }
-     interests{
+    interests{
       name
-      description
-      status
+    }
+    friends{
+      friend{
+        id
+        lastName
+      }
+    }
+    jobs{
+      id
+      name
+    }
+    pendingFriendRequests{
+      fromUserId
+      toUserId
+    }
+    sentFriendRequests{
+      fromUserId
+      toUserId
     }
 
   }
 }
-
-query AllUsersJobs{
-  users{
+query UserByIdAndData{
+  user(id: 2){
     id
     email
     firstName
     lastName
+    age
+    jobId
+    status
+    posts{
+      id
+    }
+    interests{
+      name
+    }
+    friends{
+      friend{
+        id
+        lastName
+      }
+    }
     jobs{
       id
-    	name
+      name
     }
+    sentFriendRequests{
+      fromUserId
+      toUserId
+    }
+    pendingFriendRequests{
+      fromUserId
+      toUserId
+    }
+  }
+}
+
+query allJobs{
+  jobs{
+    name
   }
 }
 
@@ -60,6 +149,8 @@ query GetJobById{
     name
   }
 }
+
+
 
 query GetCompaniesAndUsers{
   companies{
@@ -73,72 +164,11 @@ query GetCompaniesAndUsers{
 }
 
 query GetUsersByStatus{
-  usersByStatus(status:"Working"){
+  usersByStatus(status:"Open for work"){
     age
     firstName
     lastName
     status
-  }
-}
-
-query UserByIdAndInterests{
-  user(id: 2){
-    id
-    email
-    firstName
-    lastName
-    age
-    jobId
-    status
-    interests{
-      name
-      description
-      status
-    }
-  }
-}
-
-query UserByIdAndPosts{
-  user(id: 2){
-    id
-    email
-    firstName
-    lastName
-    age
-    jobId
-    status
-    posts{
-      id
-      postText
-  		author{
-        email
-      }
-    }
-  }
-}
-
-query UserByIdAndFriends{
-  user(id: 2){
-    id
-    email
-    firstName
-    lastName
-    age
-    jobId
-    status
-    friends{
-      userId
-      friendId
-      friend{
-        id
-        email
-        firstName
-        lastName
-        age
-        jobId
-        status
-      }
-    }
   }
 }
 
@@ -163,6 +193,9 @@ query AllPosts{
   posts{
     id
     postText
+    author{
+      lastName
+    }
   }
 }
 
@@ -173,50 +206,47 @@ query PostById{
   }
 }
 
-
-
-
-
-query PostAuthor{
-  posts{
-    postText
-    author{
-      email
-      firstName
-      lastName
-    }
-
+query allFriendsRequests{
+  allFriendRequest{
+    fromUserId
+    toUserId
+    status
   }
 }
 
 
-mutation creeareuser{
-  createUser(createUserInput: {
-    email:"cosminl2ucain448@yahoo.com",
-    password:"password"
-    firstName:"Cos2min"
-    lastName:"Luc2ian"
-    userName:"cosminlcuain58"
-    age:40
-    jobId:10
-    status: "Working"
-  }){
+
+query loggedInUserInfo{
+  loggedInUser{
     id
     email
+    firstName
+    lastName
+    age
+    jobId
+    status
+    interests{
+      id
+      name
+    }
+    sentFriendRequests{
+      fromUserId
+
+    }
+    pendingFriendRequests{
+      fromUserId
+
+    }
+    posts{
+      id
+    }
   }
 }
-# mutation updateunuser{
-#   updateUser(updateUserInput: {
-#     email:"George11@hotmail.com"
-#     firstName:"George"
-#   }){
-#     email
-#     firstName
-#   }
-# }
+
+
 mutation addPost{
   createPost(createPostInput: {
-    postText:"test"
+    postText:"ana are 3 mere"
   }){
     id
     postText
@@ -230,7 +260,7 @@ mutation addPost{
 ## adaugare interese dupa id sau nume
 mutation addInterestToUserByInterestName{
   addInterestByInterestName(addInterestInput:{
-    name:"Generic Soft Shirtt"
+    name:"Rustic Granite Pizza"
   }){
     id
     name
@@ -242,7 +272,7 @@ mutation addInterestToUserByInterestName{
 }
 mutation addInterestToUserByInterestId{
   addInterestByInterestId(addInterestInput:{
-    id:2222
+    id:26
   }){
     id
     name
@@ -252,78 +282,44 @@ mutation addInterestToUserByInterestId{
   }
 }
 
-query loggedInUserInfo{
+
+query test{
   loggedInUser{
     id
-    email
-    firstName
-    lastName
-    age
-    jobId
-    status
-    interests{
-      name
-    }
-  }
-}
-query UserByIdAndInterests2{
-  user(id: 2){
-    id
-    email
-    firstName
-    lastName
-    age
-    jobId
-    status
     interests{
       id
-      name
-      description
-      status
     }
   }
+
 }
 
-mutation stergeInteres{
-  deleteInterest(id: 14){
+
+mutation deleteInterestForLoggedInUser{
+  deleteInterest(id: 24){
     id
+    name
+    description
   }
 }
 ###########3
 
-mutation stergePost{
-  deletePost(id: 201){
+mutation deletePostForLoggedInUser{
+  deletePost(id: 199){
+    id
+  }
+}
+
+mutation deleteAnyPostAsAdmin{
+  deletePostAsAdmin(id:35){
     id
   }
 }
 
 
-
-
-query allFriendsRequests{
-  allFriendRequest{
-    fromUserId
-    toUserId
-    status
-  }
-}
-
-query loggedInUserFriendRequests{
-  loggedInUser{
-    id
-    email
-    jobId
-    jobs{
-      name
-    }
-    friendRequests{
-      toUserId
-      fromUserId
-    }
-  }
-}
+# nu pot sa le trimit celor cu care sunt prieten, si celor
+# care mi-au dat deja o cerere
 mutation sendFriendRequest{
-  sendFriendRequest(id: 899)
+  sendFriendRequest(id: 98)
 }
 
 
@@ -333,21 +329,53 @@ mutation acceptFriendRequest{
 
 
 mutation rejectFriendRequest{
-  rejectFriendRequest(id: 89)
-}
-mutation checkGradeBetweenUsers{
-  checkGradeWithUser(friendId: 52)
+  rejectFriendRequest(id: 80)
 }
 
-query UserByIdAndFriends2{
-  user(id: 2){
-    id
-    email
-    friends{
-      friendId
-    }
-  }
-}
+
+# query test{
+#   loggedInUser{
+#     id
+#     pendingFriendRequests{
+#       fromUserId
+#     }
+#     sentFriendRequests{
+#       fromUserId
+#       toUserId
+#     }
+#     friends{
+#       friend{
+#         id
+#       }
+#     }
+#   }
+
+# }
+
+
+
 mutation resignFromJob{
   resignFromJob
+}
+
+mutation getAJob{
+  getAJob(jobId:4){
+    name
+    id
+  }
+}
+
+
+
+#doar admin
+mutation stergereUser{
+  deleteUser(id: 2){
+    id
+    email
+    firstName
+    lastName
+    age
+    jobId
+    status
+  }
 }

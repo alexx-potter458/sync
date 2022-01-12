@@ -1,9 +1,12 @@
-const {GraphQLInputObjectType, GraphQLNonNull, GraphQLString, GraphQLInt} = require("graphql");
+const {GraphQLInputObjectType, GraphQLNonNull, GraphQLString, GraphQLInt, GraphQLID} = require("graphql");
 
 
-const updateUserInputType = new GraphQLInputObjectType({
-    name: 'UpdateUserInputType',
+const updateUserAsAdminInputType = new GraphQLInputObjectType({
+    name: 'UpdateUserAsAdmin',
     fields: {
+        id:{
+            type: new GraphQLNonNull(GraphQLID)
+        },
         email: {
             type: new GraphQLNonNull(GraphQLString)
         },
@@ -28,4 +31,4 @@ const updateUserInputType = new GraphQLInputObjectType({
     }
 })
 
-module.exports = updateUserInputType;
+module.exports = updateUserAsAdminInputType;

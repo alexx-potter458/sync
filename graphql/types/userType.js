@@ -5,7 +5,7 @@ const friendType = require("./friendType");
 const friendRequestType = require("./friendRequestType");
 const jobType = require('./jobType')
 const companyType = require('./companyType');
-const {getFriendRequestsForUser} = require('../../repository/friendRequests')
+const {getFriendRequestsForUser,getSentFriendRequestsForUser} = require('../../repository/friendRequests')
 
 const userType = new GraphQLObjectType({
     name: 'User',
@@ -54,12 +54,21 @@ const userType = new GraphQLObjectType({
         //         return await source.getCompanies()
         //     }
         // },
-        friendRequests:{
+        pendingFriendRequests:{
             type: new GraphQLList(friendRequestType),
             resolve: async (source, args, context) =>{
                 // console.log(await source.getFriendRequests())
                 // return await source.getFriendRequests()
                 return getFriendRequestsForUser(source)
+                // return null
+            }
+        },
+        sentFriendRequests:{
+            type: new GraphQLList(friendRequestType),
+            resolve: async (source, args, context) =>{
+                // console.log(await source.getFriendRequests())
+                // return await source.getFriendRequests()
+                return getSentFriendRequestsForUser(source)
                 // return null
             }
         }
