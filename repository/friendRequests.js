@@ -23,6 +23,7 @@ module.exports.sendFriendRequest = async (args, context) => {
     if (!user || (id === user.id)) {
         return null;
     }
+
     const userCheck = await db.User.findByPk(id)
     if (!userCheck) {
         return null;
@@ -53,12 +54,15 @@ module.exports.sendFriendRequest = async (args, context) => {
             friendId: user.id
         }
     })
-
+    console.log("1", checkIfRequestExistsOneWay)
+    console.log("2", checkIfRequestExistsOtherWay)
+    console.log("3", checkIfUsersAreFriends1)
+    console.log("4", checkIfUsersAreFriends2)
     if (checkIfRequestExistsOneWay.length > 0 || checkIfRequestExistsOtherWay.length > 0
         || checkIfUsersAreFriends1.length > 0 || checkIfUsersAreFriends2.length > 0) {
         return null;
     }
-
+    console.log("test")
     try {
         response = await db.FriendRequest.create({
             fromUserId: user.id,
@@ -108,13 +112,6 @@ module.exports.rejectFriendRequest = async (args, context) => {
     if (!user) {
         return null;
     }
-    //
-    // const aux = await db.FriendRequest.findAll({
-    //     where:{
-    //         toUserId:user.id,
-    //         fromUserId: id,
-    //     }
-    // })
 
     try {
         return await db.FriendRequest.destroy({
@@ -125,6 +122,39 @@ module.exports.rejectFriendRequest = async (args, context) => {
         })
     } catch (error) {
         console.log(error)
+        return null;
     }
+}
+
+module.exports.unfriend = async (args, context) => {
+    const {user} = context;
+    const {friendId} = args;
+
+    if (!user || !friendId) {
+        return null;
+    }
+
+    try {
+        const responseOneWay = await db.Friend.destroy({
+            where: {
+                userId: user.id,
+                friendId
+            }
+        })
+        const responseOtherWay = await db.Friend.destroy({
+            where: {
+                userId: friendId,
+                friendId: user.id
+            }
+        })
+        if (responseOneWay && responseOtherWay) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error(error)
+        return null;
+    }
+
 }
 

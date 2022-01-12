@@ -283,15 +283,7 @@ mutation addInterestToUserByInterestId{
 }
 
 
-query test{
-  loggedInUser{
-    id
-    interests{
-      id
-    }
-  }
 
-}
 
 
 mutation deleteInterestForLoggedInUser{
@@ -319,12 +311,12 @@ mutation deleteAnyPostAsAdmin{
 # nu pot sa le trimit celor cu care sunt prieten, si celor
 # care mi-au dat deja o cerere
 mutation sendFriendRequest{
-  sendFriendRequest(id: 98)
+  sendFriendRequest(id: 70)
 }
 
 
 mutation acceptFriendRequest{
-  acceptFriendRequest(id: 99)
+  acceptFriendRequest(id: 70)
 }
 
 
@@ -332,25 +324,39 @@ mutation rejectFriendRequest{
   rejectFriendRequest(id: 80)
 }
 
+mutation unfriend{
+  unfriend(friendId:70)
+}
+
 
 # query test{
 #   loggedInUser{
 #     id
-#     pendingFriendRequests{
-#       fromUserId
-#     }
-#     sentFriendRequests{
-#       fromUserId
-#       toUserId
-#     }
 #     friends{
-#       friend{
-#         id
-#       }
+#       id
 #     }
 #   }
 
 # }
+
+query test{
+  loggedInUser{
+    id
+    pendingFriendRequests{
+      fromUserId
+    }
+    sentFriendRequests{
+      fromUserId
+      toUserId
+    }
+    friends{
+      friend{
+        id
+      }
+    }
+  }
+
+}
 
 
 

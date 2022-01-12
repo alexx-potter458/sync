@@ -27,7 +27,7 @@ const db = require('../models')
 const {createUser, updateUser, deleteUser, updateUserAsAdmin, resignFromJob, getAJob} = require('../repository/users');
 const {deletePost,deletePostAsAdmin, createPost} = require('../repository/posts')
 const {deleteInterest, addInterest} = require('../repository/interests')
-const {sendFriendRequest, acceptFriendRequest, rejectFriendRequest} = require('../repository/friendRequests')
+const {sendFriendRequest, acceptFriendRequest, rejectFriendRequest, unfriend} = require('../repository/friendRequests')
 const {contentDisposition} = require("express/lib/utils");
 
 
@@ -191,6 +191,17 @@ const mutationType = new GraphQLObjectType({
                 },
                 resolve: async (source, args, context) => {
                     return rejectFriendRequest(args, context)
+                }
+            },
+            unfriend:{
+                type:GraphQLBoolean,
+                args:{
+                    friendId:{
+                        type:new GraphQLNonNull(GraphQLID)
+                    }
+                },
+                resolve: async (source, args, context) =>{
+                    return unfriend(args,context);
                 }
             },
             resignFromJob: {
