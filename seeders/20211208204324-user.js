@@ -15,6 +15,7 @@ module.exports = {
         age: parseInt(Math.random() * 80) + 20,
         jobId: parseInt(Math.random() * 100),
         status: statusuri[parseInt(Math.random() * 3)],
+        roleId: 0
       })
     }
 

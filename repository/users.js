@@ -1,5 +1,8 @@
 const db = require('../models');
 const userStatus = require('../config/userStatus');
+const { User } = require('discord.js');
+const { urlencoded } = require('express');
+const Permissions = require('../config/permissions');
 
 module.exports.createUser = async (args) => {
     const {email, password, firstName, lastName, userName, age, jobId} = args;
@@ -99,7 +102,11 @@ module.exports.updateUserAsAdmin = async (args, context) => {
         statusAux = args.status;
     }
     const status = statusAux;
+    const hasPermissions = await user.can(Permissions.UPDATE_USERS);
 
+    if(!hasPermissions){
+        return null;
+    }
 
     try {
         await db.User.update({
@@ -126,6 +133,12 @@ module.exports.deleteUser = async (args, context) => {
     if (!user) {
         console.log('N-avem pentru tine strainule!')
         return null
+    }
+
+    const hasPermissions = await user.can(Permissions.UPDATE_USERS);
+
+    if(!hasPermissions){
+        return null;
     }
 
     let idUser = args.id

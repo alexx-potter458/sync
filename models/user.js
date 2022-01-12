@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
                 otherKey:'toUserId'
             })
 
+            models.User.belongsTo(models.Role, {
+                foreignKey: 'roleId'
+            })
+
             // models.User.belongsToMany(models.User, {
             //     through: models.Friend,
             //     as: 'Friend1',
@@ -45,8 +49,13 @@ module.exports = (sequelize, DataTypes) => {
             //     otherKey:'userId'
             // })
 
-
             models.User.hasMany(models.Friend)
+        }
+        
+        async can(permissionName) {
+            const role = await this.getRole();
+            const permissions = role.permissions;
+            return permissions.indexOf(permissionName) !== -1;
         }
     };
     User.init({
@@ -57,7 +66,8 @@ module.exports = (sequelize, DataTypes) => {
         age: DataTypes.INTEGER,
         jobId: DataTypes.INTEGER,
         status: DataTypes.STRING,
-        password: DataTypes.STRING
+        password: DataTypes.STRING,
+        roleId: DataTypes.INTEGER
     }, {
         sequelize,
         modelName: 'User',
