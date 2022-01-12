@@ -1,7 +1,5 @@
 const db = require('../models');
 const userStatus = require('../config/userStatus');
-const { User } = require('discord.js');
-const { urlencoded } = require('express');
 const Permissions = require('../config/permissions');
 
 module.exports.createUser = async (args) => {
