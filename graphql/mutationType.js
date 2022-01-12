@@ -116,7 +116,7 @@ const mutationType = new GraphQLObjectType({
                 }
             },
             deleteUser: {
-                type: userType,
+                type: GraphQLBoolean,
                 args: {
                     id: {
                         type: new GraphQLNonNull(GraphQLID)
